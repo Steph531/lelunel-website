@@ -1,6 +1,6 @@
 {
   "fr": {
-    "meta_title": "La Carte — Le Jardin",
+    "meta_title": "La Carte — {site_name}",
     "meta_description": "Découvrez notre carte : entrées, plats, desserts, fromages et formules. Cuisine française de saison.",
     "hero_title": "La Carte",
     "hero_subtitle": "Produits de saison, renouvelés chaque mois",
@@ -42,7 +42,7 @@
     "cta_button": "Réserver une table"
   },
   "en": {
-    "meta_title": "Menu — Le Jardin",
+    "meta_title": "Menu — {site_name}",
     "meta_description": "Discover our menu: starters, mains, desserts, cheese and set menus. Seasonal French cuisine.",
     "hero_title": "The Menu",
     "hero_subtitle": "Seasonal produce, renewed every month",

@@ -1,10 +1,10 @@
 {
   "fr": {
-    "meta_title": "Notre Histoire — Le Jardin",
-    "meta_description": "Découvrez l'histoire du Jardin, nos valeurs et l'équipe passionnée qui vous accueille chaque jour.",
+    "meta_title": "Notre Histoire — {site_name}",
+    "meta_description": "Découvrez l'histoire de {site_name}, nos valeurs et l'équipe passionnée qui vous accueille chaque jour.",
     "hero_title": "Notre Histoire",
     "story_title": "Une table née d'une passion",
-    "story_description": "Le Jardin est né en 2019 d'une envie simple : créer un endroit où l'on mange bien, où l'on se sent bien. Une cuisine de marché, des producteurs choisis avec soin, une salle où chaque détail a été pensé pour vous. Pas de chichis, pas de faux-semblants — juste le plaisir sincère du partage autour d'une belle assiette.",
+    "story_description": "Le Lunel est né d'une envie simple : créer un endroit où l'on mange bien, où l'on se sent bien. Une cuisine méditerranéenne, des produits choisis avec soin, une salle où chaque détail a été pensé pour vous. Pas de chichis, pas de faux-semblants — juste le plaisir sincère du partage autour d'une belle assiette.",
     "story_image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80&auto=format&fit=crop",
     "values_title": "Ce qui nous guide",
     "values": [
@@ -35,7 +35,7 @@
     "cta_button": "Réserver une table",
     "chef_name": "Thomas Marceau",
     "chef_role": "Chef de cuisine",
-    "chef_description": "Formé auprès des plus grands — Alain Ducasse, Michel Troisgros — Thomas Marceau a décidé à 35 ans de revenir aux sources. Il ouvre Le Jardin avec une seule ambition : proposer une cuisine sincère, ancrée dans le terroir, qui met en valeur les producteurs locaux. Sa philosophie ? Le meilleur produit, le geste juste, et le plaisir partagé.",
+    "chef_description": "Formé auprès des plus grands — Alain Ducasse, Michel Troisgros — Thomas Marceau a décidé à 35 ans de revenir aux sources. Il ouvre Le Lunel avec une seule ambition : proposer une cuisine sincère, ancrée dans la Méditerranée, qui met en valeur les producteurs locaux. Sa philosophie ? Le meilleur produit, le geste juste, et le plaisir partagé.",
     "chef_image": "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=700&q=80&auto=format&fit=crop",
     "timeline_title": "Son parcours",
     "timeline": [
@@ -56,17 +56,17 @@
       },
       {
         "year": "2019",
-        "title": "Ouverture du Jardin",
+        "title": "Ouverture du Lunel",
         "description": "Retour à Paris avec un projet en propre : une table intime, de saison, qui célèbre les artisans et producteurs locaux."
       }
     ]
   },
   "en": {
-    "meta_title": "Our Story — Le Jardin",
-    "meta_description": "Discover the story of Le Jardin, our values and the passionate team that welcomes you every day.",
+    "meta_title": "Our Story — {site_name}",
+    "meta_description": "Discover the story of {site_name}, our values and the passionate team that welcomes you every day.",
     "hero_title": "Our Story",
     "story_title": "A table born from passion",
-    "story_description": "Le Jardin was born in 2019 from a simple desire: to create a place where the food is great and the welcome even better. Market cuisine, carefully chosen producers, a dining room where every detail has been designed for you. No fuss, no pretence — just the sincere pleasure of sharing a beautiful plate.",
+    "story_description": "Le Lunel was born from a simple desire: to create a place where the food is great and the welcome even better. Mediterranean cuisine, carefully chosen produce, a dining room where every detail has been designed for you. No fuss, no pretence — just the sincere pleasure of sharing a beautiful plate.",
     "story_image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80&auto=format&fit=crop",
     "values_title": "What guides us",
     "values": [
@@ -97,7 +97,7 @@
     "cta_button": "Book a table",
     "chef_name": "Thomas Marceau",
     "chef_role": "Head chef",
-    "chef_description": "Trained alongside the greats — Alain Ducasse, Michel Troisgros — Thomas Marceau decided at 35 to return to his roots. He opened Le Jardin with a single ambition: to offer honest, terroir-driven cuisine that showcases local producers. His philosophy? The best produce, the precise gesture, and the shared pleasure.",
+    "chef_description": "Trained alongside the greats — Alain Ducasse, Michel Troisgros — Thomas Marceau decided at 35 to return to his roots. He opened Le Lunel with a single ambition: to offer honest, Mediterranean-driven cuisine that showcases local producers. His philosophy? The best produce, the precise gesture, and the shared pleasure.",
     "chef_image": "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=700&q=80&auto=format&fit=crop",
     "timeline_title": "His journey",
     "timeline": [
@@ -118,7 +118,7 @@
       },
       {
         "year": "2019",
-        "title": "Opening of Le Jardin",
+        "title": "Opening of Le Lunel",
         "description": "A return to Paris with his own project: an intimate, seasonal table celebrating local artisans and producers."
       }
     ]

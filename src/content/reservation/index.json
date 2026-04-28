@@ -1,7 +1,7 @@
 {
   "fr": {
-    "meta_title": "Réservation — Le Jardin",
-    "meta_description": "Réservez votre table au Jardin en ligne. Disponible pour le déjeuner et le dîner, du mardi au samedi.",
+    "meta_title": "Réservation — {site_name}",
+    "meta_description": "Réservez votre table au {site_name} en ligne. Disponible pour le déjeuner et le dîner, du mardi au samedi.",
     "hero_title": "Réservation",
     "hero_subtitle": "Réservez votre table en quelques secondes",
     "form_title": "Réserver une table",
@@ -35,8 +35,8 @@
     "info_groups_text": "Pour une réservation de 9 personnes et plus, ou pour un événement privatif, merci de nous contacter directement par téléphone ou par e-mail."
   },
   "en": {
-    "meta_title": "Reservation — Le Jardin",
-    "meta_description": "Book your table at Le Jardin online. Available for lunch and dinner, Tuesday to Saturday.",
+    "meta_title": "Reservation — {site_name}",
+    "meta_description": "Book your table at {site_name} online. Available for lunch and dinner, Tuesday to Saturday.",
     "hero_title": "Reservation",
     "hero_subtitle": "Book your table in seconds",
     "form_title": "Book a table",

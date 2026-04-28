@@ -14,7 +14,7 @@ interface Props {
   noIndex?: boolean;
 }
 
-const { title, description, lang, currentPath, noIndex = false } = Astro.props;
+const { title: rawTitle, description: rawDescription, lang, currentPath, noIndex = false } = Astro.props;
 
 const siteBase = (Astro.site ?? new URL('https://example.com')).origin;
 const canonicalUrl = new URL(currentPath, siteBase).href;
@@ -22,7 +22,9 @@ const canonicalUrl = new URL(currentPath, siteBase).href;
 // ─── Paramètres globaux depuis la config de marque ───────────────────────────
 const brand = await getBrand(lang);
 
-const siteName      = brand.site_name  || title;
+const siteName = brand.site_name || rawTitle;
+const title = rawTitle.replace('{site_name}', siteName);
+const description = rawDescription.replace('{site_name}', siteName);
 const ogImage       = brand.og_image   ? new URL(brand.og_image, siteBase).href : null;
 const twitterHandle = brand.twitter_handle || null;
 const ogLocale      = lang === 'fr' ? 'fr_FR' : 'en_US';
