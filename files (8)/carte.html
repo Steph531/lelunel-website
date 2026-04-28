@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>La Carte — [NOM_RESTAURANT] | [TYPE_CUISINE] à [VILLE]</title>
+  <meta name="description" content="Découvrez la carte de [NOM_RESTAURANT] : entrées, plats, desserts et formules. [TYPE_CUISINE] à [VILLE]. Réservez : [TELEPHONE_FORMATE]."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== VARIABLES (identiques à index.html) ===== */
+    :root {
+      --color-primary:        #1a1a18;
+      --color-secondary:      #b5874a;
+      --color-surface:        #faf8f4;
+      --color-surface-alt:    #f2ede5;
+      --color-surface-dark:   #111110;
+      --color-text:           #1a1a18;
+      --color-text-light:     #f5f0e8;
+      --color-muted:          #7a7060;
+      --color-border:         #e4ded3;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Jost', system-ui, sans-serif;
+      --font-label:   'Jost', system-ui, sans-serif;
+      --radius: 12px; --radius-sm: 6px; --max-w: 1200px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--color-text); background: var(--color-surface); padding-bottom: 64px; }
+    @media (min-width: 768px) { body { padding-bottom: 0; } }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: .5; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Mobile Reserve Bar */
+    .mobile-reserve-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; display: flex; z-index: 100; }
+    @media (min-width: 768px) { .mobile-reserve-bar { display: none; } }
+    .mobile-reserve-bar a { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-label); font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-light); }
+    .mrb-call { background: var(--color-primary); }
+    .mrb-resa { background: var(--color-secondary); }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(250,248,244,.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border); }
+    .header-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; color: var(--color-primary); line-height: 1; }
+    .header-logo span { display: block; font-size: .6rem; font-family: var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: var(--color-muted); font-weight: 400; margin-top: 3px; }
+    .header-nav { display: none; gap: 32px; align-items: center; }
+    @media (min-width: 768px) { .header-nav { display: flex; } }
+    .header-nav a { font-family: var(--font-label); font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); transition: color .2s; position: relative; padding-bottom: 2px; }
+    .header-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--color-secondary); transition: width .25s; }
+    .header-nav a:hover { color: var(--color-primary); }
+    .header-nav a:hover::after, .header-nav a.active::after { width: 100%; }
+    .header-nav a.active { color: var(--color-primary); }
+    .header-actions { display: none; gap: 12px; align-items: center; }
+    @media (min-width: 768px) { .header-actions { display: flex; } }
+    .btn-outline { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 1.5px solid var(--color-primary); color: var(--color-primary); padding: 8px 16px; border-radius: var(--radius-sm); transition: all .2s; }
+    .btn-outline:hover { background: var(--color-primary); color: var(--color-text-light); }
+    .btn-primary { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: var(--color-secondary); color: #fff; padding: 8px 20px; border-radius: var(--radius-sm); transition: background .2s; }
+    .btn-primary:hover { background: #8f6730; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+    @media (min-width: 768px) { .hamburger { display: none; } }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--color-primary); border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 68px 0 0 0; background: var(--color-surface); z-index: 49; padding: 32px 24px; flex-direction: column; border-top: 1px solid var(--color-border); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: var(--font-label); font-size: .95rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--color-text); padding: 18px 0; border-bottom: 1px solid var(--color-border); }
+    .mobile-menu a:last-child { color: var(--color-secondary); border-bottom: none; }
+
+    /* Page Hero */
+    .page-hero {
+      background: var(--color-surface-dark);
+      padding: 80px 24px 96px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 60px; background: var(--color-surface);
+      clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 30% 50%, rgba(181,135,74,.1) 0%, transparent 60%);
+    }
+    .page-hero-inner { max-width: var(--max-w); margin: 0 auto; position: relative; z-index: 1; }
+    .page-hero-label { font-family: var(--font-label); font-size: .65rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 14px; }
+    .page-hero-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 600; color: var(--color-text-light); line-height: 1.05; margin-bottom: 16px; }
+    .page-hero-title em { color: var(--color-secondary); font-style: italic; }
+    .page-hero-sub { font-size: 1rem; color: rgba(245,240,232,.55); font-weight: 300; max-width: 480px; }
+
+    /* Tabs navigation carte */
+    .carte-nav { background: var(--color-surface); border-bottom: 1px solid var(--color-border); position: sticky; top: 68px; z-index: 40; }
+    .carte-nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; display: flex; gap: 0; overflow-x: auto; }
+    .carte-nav-btn { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); padding: 16px 24px; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; background: none; border: none; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+    .carte-nav-btn:hover { color: var(--color-primary); }
+    .carte-nav-btn.active { color: var(--color-primary); border-bottom-color: var(--color-secondary); }
+
+    /* Sections carte */
+    .section { padding: 80px 24px; }
+    .section-alt { background: var(--color-surface-alt); }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    /* En-tête de section carte */
+    .carte-section-header { margin-bottom: 40px; display: flex; align-items: baseline; gap: 20px; }
+    .carte-section-num { font-family: var(--font-display); font-size: 3.5rem; font-weight: 400; color: var(--color-border); line-height: 1; }
+    .carte-section-title-group {}
+    .carte-section-label { font-family: var(--font-label); font-size: .6rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 4px; }
+    .carte-section-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; color: var(--color-primary); line-height: 1.1; }
+    .carte-section-title em { font-style: italic; }
+
+    /* Grille plats */
+    .plats-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+    @media (min-width: 768px) { .plats-grid { grid-template-columns: repeat(2, 1fr); } }
+    .plat-item {
+      display: flex; align-items: flex-start; gap: 20px; padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+    .plat-item.visible { opacity: 1; transform: translateY(0); }
+    .plat-item:last-child { border-bottom: none; }
+    /* Photo placeholder plat */
+    .plat-thumb {
+      width: 72px; height: 72px; flex-shrink: 0; border-radius: var(--radius-sm);
+      background: var(--color-surface-alt); border: 1px solid var(--color-border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-border); overflow: hidden;
+    }
+    .plat-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .plat-info { flex: 1; }
+    .plat-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+    .plat-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--color-primary); line-height: 1.2; }
+    .plat-price { font-family: var(--font-label); font-size: .85rem; font-weight: 600; color: var(--color-secondary); white-space: nowrap; }
+    .plat-desc { font-size: .85rem; color: var(--color-muted); font-weight: 300; line-height: 1.6; }
+    .plat-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .badge {
+      display: inline-block; font-family: var(--font-label); font-size: .55rem;
+      font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 20px;
+    }
+    .badge-signature { background: var(--color-secondary); color: #fff; }
+    .badge-vege { background: #e8f5e9; color: #2e7d32; }
+    .badge-new { background: #e3f2fd; color: #1565c0; }
+    .badge-gluten { background: #fff8e1; color: #f57f17; }
+    .badge-maison { background: #f3e5f5; color: #6a1b9a; }
+
+    /* Bloc formules */
+    .formules-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 640px) { .formules-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .formules-grid { grid-template-columns: repeat(3, 1fr); } }
+    .formule-card {
+      border: 1px solid var(--color-border); border-radius: var(--radius);
+      padding: 32px 28px; background: var(--color-surface);
+      position: relative; transition: border-color .25s, transform .25s;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .5s ease, transform .5s ease, border-color .25s;
+    }
+    .formule-card.visible { opacity: 1; transform: translateY(0); }
+    .formule-card:hover { border-color: var(--color-secondary); transform: translateY(-3px); }
+    .formule-card.featured { border-color: var(--color-secondary); background: var(--color-surface-alt); }
+    .formule-featured-badge {
+      position: absolute; top: -12px; left: 24px;
+      background: var(--color-secondary); color: #fff;
+      font-family: var(--font-label); font-size: .55rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px;
+    }
+    .formule-name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--color-primary); margin-bottom: 6px; }
+    .formule-price { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--color-secondary); line-height: 1; margin-bottom: 4px; }
+    .formule-price-note { font-family: var(--font-label); font-size: .65rem; color: var(--color-muted); letter-spacing: .08em; margin-bottom: 20px; }
+    .formule-includes { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .formule-includes li { font-size: .88rem; color: var(--color-text); font-weight: 300; display: flex; align-items: center; gap: 10px; }
+    .formule-includes li::before { content: '✓'; color: var(--color-secondary); font-weight: 700; flex-shrink: 0; }
+    .formule-note { margin-top: 16px; font-size: .78rem; color: var(--color-muted); font-style: italic; }
+
+    /* CTA Carte */
+    .carte-cta { background: var(--color-primary); padding: 64px 24px; text-align: center; }
+    .carte-cta-inner { max-width: 560px; margin: 0 auto; }
+    .carte-cta-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 600; color: var(--color-text-light); margin-bottom: 12px; }
+    .carte-cta-title em { color: var(--color-secondary); font-style: italic; }
+    .carte-cta-sub { font-size: .92rem; color: rgba(245,240,232,.5); font-weight: 300; margin-bottom: 28px; line-height: 1.7; }
+
+    /* Allergènes note */
+    .allergenes { background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 20px 24px; margin-top: 40px; }
+    .allergenes p { font-size: .82rem; color: var(--color-muted); font-weight: 300; line-height: 1.7; }
+    .allergenes strong { color: var(--color-text); font-weight: 500; }
+
+    /* Footer */
+    .footer { background: var(--color-primary); border-top: 1px solid rgba(255,255,255,.06); padding: 64px 24px 40px; }
+    .footer-inner { max-width: var(--max-w); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 40px; }
+    @media (min-width: 768px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; } }
+    .footer-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--color-text-light); margin-bottom: 4px; }
+    .footer-tagline { font-family: var(--font-label); font-size: .62rem; font-weight: 400; letter-spacing: .2em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 20px; }
+    .footer-desc { font-size: .85rem; color: rgba(245,240,232,.4); font-weight: 300; line-height: 1.7; max-width: 280px; }
+    .footer-col-title { font-family: var(--font-label); font-size: .62rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 18px; }
+    .footer-col a { display: block; font-size: .85rem; color: rgba(245,240,232,.45); font-weight: 300; padding: 5px 0; transition: color .2s; }
+    .footer-col a:hover { color: var(--color-text-light); }
+    .footer-bottom { max-width: var(--max-w); margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 8px; }
+    @media (min-width: 640px) { .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer-copy { font-size: .78rem; color: rgba(245,240,232,.25); font-weight: 300; }
+    .footer-legal a { font-size: .78rem; color: rgba(245,240,232,.3); transition: color .2s; }
+    .footer-legal a:hover { color: var(--color-secondary); }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-reserve-bar">
+    <a href="tel:[TELEPHONE]" class="mrb-call">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 0113.1 2.18 2 2 0 0115.12 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L19.18 9.9a16 16 0 006.82 6.82l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0124 16.92z"/></svg>
+      Appeler
+    </a>
+    <a href="reservation.html" class="mrb-resa">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Réserver
+    </a>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-logo">[NOM_RESTAURANT]<span>[TYPE_CUISINE] · [VILLE]</span></a>
+      <nav class="header-nav">
+        <a href="index.html">Accueil</a>
+        <a href="carte.html" class="active">La Carte</a>
+        <a href="equipe.html">L'Équipe</a>
+        <a href="reservation.html">Réservation</a>
+      </nav>
+      <div class="header-actions">
+        <a href="tel:[TELEPHONE]" class="btn-outline">[TELEPHONE_FORMATE]</a>
+        <a href="reservation.html" class="btn-primary">Réserver</a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="index.html" onclick="toggleMenu()">Accueil</a>
+      <a href="carte.html" onclick="toggleMenu()">La Carte</a>
+      <a href="equipe.html" onclick="toggleMenu()">L'Équipe</a>
+      <a href="reservation.html" onclick="toggleMenu()">Réserver →</a>
+    </nav>
+  </header>
+
+  <!-- ===== PAGE HERO ===== -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-hero-label">Notre cuisine</p>
+      <h1 class="page-hero-title">La <em>carte</em></h1>
+      <p class="page-hero-sub">Composée au fil des saisons et des arrivages, notre carte évolue pour vous offrir le meilleur à chaque visite.</p>
+    </div>
+  </div>
+
+  <!-- ===== NAVIGATION INTERNE ===== -->
+  <nav class="carte-nav" id="carte-nav">
+    <div class="carte-nav-inner">
+      <button class="carte-nav-btn active" onclick="scrollToSection('entrees', this)">Entrées</button>
+      <button class="carte-nav-btn" onclick="scrollToSection('plats', this)">Plats</button>
+      <button class="carte-nav-btn" onclick="scrollToSection('desserts', this)">Desserts</button>
+      <button class="carte-nav-btn" onclick="scrollToSection('fromages', this)">Fromages</button>
+      <button class="carte-nav-btn" onclick="scrollToSection('formules', this)">Formules</button>
+    </div>
+  </nav>
+
+  <!-- ===== ENTRÉES ===== -->
+  <section class="section" id="entrees">
+    <div class="section-inner">
+      <div class="carte-section-header">
+        <span class="carte-section-num">01</span>
+        <div class="carte-section-title-group">
+          <p class="carte-section-label">Pour commencer</p>
+          <h2 class="carte-section-title">Nos <em>entrées</em></h2>
+        </div>
+      </div>
+      <div class="plats-grid">
+        <div class="plat-item">
+          <div class="plat-thumb">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="plat-info">
+            <div class="plat-header">
+              <p class="plat-name">[Nom entrée 1]</p>
+              <p class="plat-price">XX €</p>
+            </div>
+            <p class="plat-desc">[Descriptif : ingrédients, texture, provenance. Ex : Velouté de [légume] de [producteur], huile de [arôme], chips de [garniture].]</p>
+            <div class="plat-badges"><span class="badge badge-signature">Signature</span><span class="badge badge-vege">Végétarien</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom entrée 2]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : ingrédients, texture, provenance]</p>
+            <div class="plat-badges"><span class="badge badge-new">Nouveau</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom entrée 3]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : ingrédients, texture, provenance]</p>
+            <div class="plat-badges"></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom entrée 4]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : ingrédients, texture, provenance]</p>
+            <div class="plat-badges"><span class="badge badge-maison">Fait maison</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLATS ===== -->
+  <section class="section section-alt" id="plats">
+    <div class="section-inner">
+      <div class="carte-section-header">
+        <span class="carte-section-num">02</span>
+        <div class="carte-section-title-group">
+          <p class="carte-section-label">Le cœur du repas</p>
+          <h2 class="carte-section-title">Nos <em>plats</em></h2>
+        </div>
+      </div>
+      <div class="plats-grid">
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom plat viande 1]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : cuisson, garniture, sauce. Ex : [Viande] de [éleveur local], jus réduit au [aromate], purée de [légume], légumes rôtis.]</p>
+            <div class="plat-badges"><span class="badge badge-signature">Signature</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom plat poisson 1]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : cuisson, garniture, sauce. Ex : [Poisson] de pêche locale, émulsion de [arôme], [légume] de saison.]</p>
+            <div class="plat-badges"><span class="badge badge-new">Nouveau</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom plat viande 2]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : cuisson, garniture, sauce]</p>
+            <div class="plat-badges"><span class="badge badge-maison">Fait maison</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom plat végétarien]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : ingrédients, mode de préparation]</p>
+            <div class="plat-badges"><span class="badge badge-vege">Végétarien</span><span class="badge badge-gluten">Sans gluten</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom plat poisson 2]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : cuisson, garniture, sauce]</p>
+            <div class="plat-badges"></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom plat du marché]</p><p class="plat-price">Selon arrivage</p></div>
+            <p class="plat-desc">[Plat du moment selon les arrivages — demandez à votre serveur]</p>
+            <div class="plat-badges"><span class="badge badge-new">Du marché</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DESSERTS ===== -->
+  <section class="section" id="desserts">
+    <div class="section-inner">
+      <div class="carte-section-header">
+        <span class="carte-section-num">03</span>
+        <div class="carte-section-title-group">
+          <p class="carte-section-label">Pour finir en beauté</p>
+          <h2 class="carte-section-title">Nos <em>desserts</em></h2>
+        </div>
+      </div>
+      <div class="plats-grid">
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom dessert signature]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : saveurs, textures. Ex : Tarte fine à la [fruit], crème [arôme], glace [parfum] maison.]</p>
+            <div class="plat-badges"><span class="badge badge-signature">Signature</span><span class="badge badge-maison">Fait maison</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom dessert 2]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : saveurs, textures]</p>
+            <div class="plat-badges"><span class="badge badge-vege">Végétarien</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">[Nom dessert 3]</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif : saveurs, textures]</p>
+            <div class="plat-badges"><span class="badge badge-gluten">Sans gluten</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">Sélection de glaces & sorbets maison</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">3 boules au choix — demandez la sélection du moment à votre serveur.</p>
+            <div class="plat-badges"><span class="badge badge-maison">Fait maison</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FROMAGES ===== -->
+  <section class="section section-alt" id="fromages">
+    <div class="section-inner">
+      <div class="carte-section-header">
+        <span class="carte-section-num">04</span>
+        <div class="carte-section-title-group">
+          <p class="carte-section-label">Affiné avec soin</p>
+          <h2 class="carte-section-title">Notre <em>plateau</em> de fromages</h2>
+        </div>
+      </div>
+      <div class="plats-grid">
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">Plateau de fromages affinés</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">Sélection de [X] fromages régionaux, servis avec pain maison et confiture de [fruit]. Affiné par [nom affineur].</p>
+            <div class="plat-badges"><span class="badge badge-maison">Sélection maison</span></div>
+          </div>
+        </div>
+        <div class="plat-item">
+          <div class="plat-thumb"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="plat-info">
+            <div class="plat-header"><p class="plat-name">Fromage frais et son accompagnement</p><p class="plat-price">XX €</p></div>
+            <p class="plat-desc">[Descriptif fromage frais — type, accompagnement, miel, noix…]</p>
+            <div class="plat-badges"><span class="badge badge-vege">Végétarien</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FORMULES ===== -->
+  <section class="section" id="formules">
+    <div class="section-inner">
+      <div class="carte-section-header">
+        <span class="carte-section-num">05</span>
+        <div class="carte-section-title-group">
+          <p class="carte-section-label">Nos offres</p>
+          <h2 class="carte-section-title">Les <em>formules</em></h2>
+        </div>
+      </div>
+      <div class="formules-grid">
+        <div class="formule-card">
+          <p class="formule-name">Menu du Midi</p>
+          <p class="formule-price">XX €</p>
+          <p class="formule-price-note">Par personne · Hors boissons</p>
+          <ul class="formule-includes">
+            <li>Entrée au choix</li>
+            <li>Plat du jour</li>
+            <li>Café offert</li>
+          </ul>
+          <p class="formule-note">Disponible du mardi au vendredi, au service du midi uniquement.</p>
+        </div>
+        <div class="formule-card featured">
+          <span class="formule-featured-badge">Le plus populaire</span>
+          <p class="formule-name">Menu Découverte</p>
+          <p class="formule-price">XX €</p>
+          <p class="formule-price-note">Par personne · Hors boissons</p>
+          <ul class="formule-includes">
+            <li>Entrée au choix</li>
+            <li>Plat au choix</li>
+            <li>Dessert au choix</li>
+            <li>Café inclus</li>
+          </ul>
+          <p class="formule-note">Disponible midi et soir, tous les jours d'ouverture.</p>
+        </div>
+        <div class="formule-card">
+          <p class="formule-name">Menu Dégustation</p>
+          <p class="formule-price">XX €</p>
+          <p class="formule-price-note">Par personne · Hors boissons</p>
+          <ul class="formule-includes">
+            <li>5 temps composés par le chef</li>
+            <li>Mises en bouche offertes</li>
+            <li>Accord mets-vins optionnel (+XX €)</li>
+            <li>Café et mignardises inclus</li>
+          </ul>
+          <p class="formule-note">Réservé au service du soir uniquement. Sur réservation 48h à l'avance.</p>
+        </div>
+      </div>
+      <!-- Note allergènes -->
+      <div class="allergenes">
+        <p><strong>Allergènes & régimes spéciaux :</strong> Nos équipes sont à votre disposition pour vous informer sur la composition des plats et vous proposer des adaptations selon vos besoins (allergies, intolérances, régimes végétariens ou végétaliens). N'hésitez pas à nous en informer lors de votre réservation ou à votre arrivée.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <div class="carte-cta">
+    <div class="carte-cta-inner">
+      <h2 class="carte-cta-title">La carte vous <em>inspire</em> ?</h2>
+      <p class="carte-cta-sub">Réservez votre table maintenant et laissez-nous vous préparer une belle expérience.</p>
+      <a href="reservation.html" class="btn-primary">Réserver une table →</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-logo">[NOM_RESTAURANT]</p>
+        <p class="footer-tagline">[TYPE_CUISINE] · [VILLE]</p>
+        <p class="footer-desc">Une cuisine sincère, des produits d'exception, un accueil chaleureux.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Navigation</p>
+        <a href="index.html">Accueil</a>
+        <a href="carte.html">La Carte</a>
+        <a href="equipe.html">L'Équipe</a>
+        <a href="reservation.html">Réservation</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Horaires</p>
+        <a href="#">Mar – Ven : 12h – 14h30</a>
+        <a href="#">Mar – Sam : 19h – 22h30</a>
+        <a href="#">Sam midi : 12h – 15h</a>
+        <a href="#">Lun & Dim : Fermé</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contact</p>
+        <a href="tel:[TELEPHONE]">[TELEPHONE_FORMATE]</a>
+        <a href="mailto:[EMAIL]">[EMAIL]</a>
+        <a href="#">[Adresse], [Ville]</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© [ANNEE] [NOM_RESTAURANT]</p>
+      <p class="footer-legal"><a href="mentions-legales.html">Mentions légales</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const m = document.getElementById('mobile-menu');
+      const b = document.getElementById('hamburger-btn');
+      const open = m.classList.toggle('open');
+      b.setAttribute('aria-expanded', open);
+    }
+    document.addEventListener('click', function(e) {
+      const m = document.getElementById('mobile-menu');
+      const b = document.getElementById('hamburger-btn');
+      if (m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) {
+        m.classList.remove('open');
+        b.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Scroll vers section
+    function scrollToSection(id, btn) {
+      const el = document.getElementById(id);
+      if (el) {
+        const offset = 68 + 52; // header + carte-nav
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+      document.querySelectorAll('.carte-nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.plat-item, .formule-card').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 6) * 0.06}s`;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

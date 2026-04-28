@@ -1,0 +1,245 @@
+---
+import { getTranslator, getAlternateUrl, getBrand, localePath } from '../../utils/i18n';
+import { siteConfig } from '../../siteConfig';
+
+interface Props {
+  locale: string;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const t = await getTranslator(locale);
+const brand = await getBrand(locale);
+
+const altLocale = locale === 'fr' ? 'en' : 'fr';
+const altPath   = getAlternateUrl(currentPath, altLocale);
+
+const menuHref     = siteConfig.menu === 'pdf' && brand.menu_file ? brand.menu_file : localePath(locale, '/carte/');
+const menuExternal = siteConfig.menu === 'pdf' && !!brand.menu_file;
+
+const navLinksAll = [
+  { href: localePath(locale, '/'),            label: t('nav.home'),        key: 'home',        external: false },
+  { href: menuHref,                            label: t('nav.menu'),        key: 'carte',       external: menuExternal },
+  { href: localePath(locale, '/histoire/'),   label: t('nav.team'),        key: 'histoire',    external: false },
+  { href: localePath(locale, '/reservation/'),label: t('nav.reservation'), key: 'reservation', external: false },
+];
+const navLinks = navLinksAll.filter(l => siteConfig.histoire || l.key !== 'histoire');
+
+// Pour isActive : normalise le chemin courant selon le mode multilingue
+const comparePath = siteConfig.multilanguage ? currentPath : (currentPath.replace(`/${locale}`, '') || '/');
+function isActive(href: string): boolean {
+  const homeHref = localePath(locale, '/');
+  if (href === homeHref) return comparePath === (siteConfig.multilanguage ? `/${locale}/` : '/');
+  return comparePath.startsWith(href);
+}
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-[101] bg-surface/95 backdrop-blur-sm border-b border-rest" style="transition: background 0.4s ease, border-color 0.4s ease;">
+  <div class="max-w-site mx-auto px-4 md:px-8 flex items-center justify-between h-[70px]">
+
+    <!-- Logo -->
+    <a href={localePath(locale, '/')} class="flex flex-col leading-none">
+      {brand.logo
+        ? <img src={brand.logo} alt={brand.site_name ?? ''} class="h-10 w-auto" />
+        : (
+          <span class="font-display text-xl font-semibold text-primary tracking-wide">
+            {brand.site_name ?? 'Le Jardin'}
+          </span>
+        )
+      }
+      {brand.tagline && (
+        <span class="font-body text-[0.65rem] text-muted tracking-tag uppercase mt-0.5">
+          {brand.tagline}
+        </span>
+      )}
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-8" aria-label="Navigation principale">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+          class:list={[
+            'nav-link font-body text-sm tracking-wide transition-colors duration-200',
+            isActive(link.href)
+              ? 'text-secondary active'
+              : 'text-muted hover:text-primary'
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Desktop : CTA + langue -->
+    <div class="hidden md:flex items-center gap-4">
+      {siteConfig.multilanguage && (
+        <div class="flex rounded-full border border-rest overflow-hidden">
+          {(['fr', 'en'] as const).map(lang => (
+            lang === locale
+              ? <span class="px-3 py-1 bg-secondary text-surface font-display text-xs tracking-widest uppercase">{lang.toUpperCase()}</span>
+              : <a href={altPath} class="px-3 py-1 text-muted hover:text-primary font-display text-xs tracking-widest uppercase transition-colors" aria-label={t('nav.lang_label')}>{lang.toUpperCase()}</a>
+          ))}
+        </div>
+      )}
+      <a
+        href={localePath(locale, '/reservation/')}
+        class="font-body text-sm bg-secondary text-surface px-6 py-2.5 rounded-btn hover:bg-secondary/90 transition-colors"
+      >
+        {t('nav.book')}
+      </a>
+    </div>
+
+    <!-- Hamburger mobile -->
+    <button
+      id="hamburger-btn"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      class="md:hidden relative flex flex-col gap-[5px] cursor-pointer bg-transparent border-0 p-1 z-[101]"
+    >
+      <span class="hamburger-line block w-6 h-[1.5px] transition-[transform,opacity,background-color] duration-300"></span>
+      <span class="hamburger-line block w-6 h-[1.5px] transition-[transform,opacity,background-color] duration-300"></span>
+      <span class="hamburger-line block w-6 h-[1.5px] transition-[transform,opacity,background-color] duration-300"></span>
+    </button>
+
+  </div>
+</header>
+
+<!-- Spacer pour compenser le header fixed -->
+<div class="h-[70px]"></div>
+
+<!-- Menu overlay (sous le header) -->
+<div
+  id="mobile-menu"
+  class="mobile-menu fixed top-[70px] inset-x-0 bottom-0 z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none"
+  aria-hidden="true"
+  role="dialog"
+  aria-label="Menu navigation"
+>
+
+  <!-- Liens principaux -->
+  <nav class="flex flex-col items-center w-full px-8" aria-label="Navigation mobile">
+    {navLinks.filter(link => link.key !== 'reservation').map((link, i) => (
+      <a
+        href={link.href}
+        target={link.external ? '_blank' : undefined}
+        rel={link.external ? 'noopener noreferrer' : undefined}
+        class:list={[
+          'menu-entry font-display text-[2.6rem] leading-tight font-light tracking-wide text-center py-3 transition-colors duration-200',
+          isActive(link.href) ? 'text-secondary' : 'text-surface/80 hover:text-secondary'
+        ]}
+        style={`--i:${i}`}
+      >
+        {link.label}
+      </a>
+    ))}
+  </nav>
+
+  <!-- Séparateur + CTA réservation -->
+  <div
+    class="menu-entry flex flex-col items-center mt-8 gap-5"
+    style={`--i:${navLinks.filter(l => l.key !== 'reservation').length}`}
+  >
+    <span class="block w-8 h-px bg-secondary/40"></span>
+    <a
+      href={localePath(locale, '/reservation/')}
+      class="font-body text-xs tracking-subtitle uppercase bg-secondary text-surface px-10 py-3.5 rounded-btn hover:bg-secondary/90 transition-colors"
+    >
+      {t('nav.book')}
+    </a>
+  </div>
+
+  <!-- Sélecteur langue en bas -->
+  {siteConfig.multilanguage && (
+    <div
+      class="menu-entry absolute bottom-10 flex rounded-full overflow-hidden border border-surface/20"
+      style={`--i:${navLinks.filter(l => l.key !== 'reservation').length + 1}`}
+    >
+      {(['fr', 'en'] as const).map(lang => (
+        lang === locale
+          ? <span class="px-7 py-3 bg-secondary text-surface font-display text-xs tracking-widest uppercase">{lang.toUpperCase()}</span>
+          : <a href={altPath} class="px-7 py-3 text-surface/50 hover:text-surface font-display text-xs tracking-widest uppercase transition-colors" aria-label={t('nav.lang_label')}>{lang.toUpperCase()}</a>
+      ))}
+    </div>
+  )}
+
+</div>
+
+<style>
+  /* Hamburger lines */
+  .hamburger-line { background-color: rgb(var(--primary)); }
+
+  /* Hamburger → croix */
+  #hamburger-btn.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  #hamburger-btn.open span:nth-child(2) { transform: scaleX(0); opacity: 0; }
+  #hamburger-btn.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Overlay */
+  .mobile-menu {
+    background-color: rgb(var(--primary));
+    visibility: hidden;
+    transition: opacity 0.45s ease, visibility 0.45s;
+  }
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  /* Entrées staggerées */
+  .menu-entry {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: calc(var(--i, 0) * 75ms);
+  }
+  .mobile-menu.open .menu-entry {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Nav link desktop underline */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: rgb(var(--secondary));
+    transition: width 0.3s ease;
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after { width: 100%; }
+</style>
+
+<script is:inline>
+  (function () {
+    const btn  = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+
+    function closeMenu() {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+    }
+
+    function openMenu() {
+      menu.classList.add('open');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.setAttribute('aria-hidden', 'false');
+    }
+
+    btn.addEventListener('click', function () {
+      menu.classList.contains('open') ? closeMenu() : openMenu();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+  })();
+</script>

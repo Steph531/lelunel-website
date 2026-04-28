@@ -1,0 +1,29 @@
+---
+import type { HomeContent } from '../../../utils/i18n';
+
+interface Props {
+  content: HomeContent;
+}
+
+const { content } = Astro.props;
+
+const items = [
+  { label: content.strip_open_label,    value: content.strip_open_value    },
+  { label: content.strip_service_label, value: content.strip_service_value },
+  { label: content.strip_book_label,    value: content.strip_book_value    },
+  { label: content.strip_price_label,   value: content.strip_price_value   },
+];
+---
+
+<div class="bg-primary border-b border-white/10">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+      {items.map(item => (
+        <div class="flex flex-col items-center py-5 gap-1 px-4">
+          <span class="font-body text-[0.65rem] text-muted tracking-label uppercase">{item.label}</span>
+          <span class="font-display text-base text-text-light">{item.value}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

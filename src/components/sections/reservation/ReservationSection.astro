@@ -1,0 +1,329 @@
+---
+import type { ReservationContent } from '../../../utils/i18n';
+import { getTranslator, getBrand } from '../../../utils/i18n';
+
+interface Props {
+  content: ReservationContent;
+  locale: string;
+}
+
+const { content, locale } = Astro.props;
+const t = await getTranslator(locale);
+const brand = await getBrand(locale);
+
+const today = new Date().toISOString().split('T')[0];
+
+const mapEmbedUrl = brand.maps_url
+---
+
+<section class="bg-surface py-16 md:py-24">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16">
+
+      <!-- Formulaire -->
+      <div>
+        <h2 class="font-display text-3xl md:text-4xl font-light text-primary mb-8">
+          {content.form_title}
+          <span class="block w-12 h-px bg-secondary mt-4"></span>
+        </h2>
+
+        <form
+          name="reservation"
+          method="POST"
+          data-netlify="true"
+          class="flex flex-col gap-6"
+          id="reservation-form"
+        >
+          <input type="hidden" name="form-name" value="reservation" />
+          <!-- Honeypot anti-spam -->
+          <div class="hidden" aria-hidden="true">
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- Prénom + Nom -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="prenom" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_firstname} <span class="text-secondary" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text" id="prenom" name="prenom" required
+                class="form-input"
+                placeholder="Marie"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="nom" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_lastname} <span class="text-secondary" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text" id="nom" name="nom" required
+                class="form-input"
+                placeholder="Dupont"
+              />
+            </div>
+          </div>
+
+          <!-- Email + Téléphone -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="email" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_email} <span class="text-secondary" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="email" id="email" name="email" required
+                class="form-input"
+                placeholder="marie@email.fr"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="telephone" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_phone}
+              </label>
+              <input
+                type="tel" id="telephone" name="telephone"
+                class="form-input"
+                placeholder="+33 6 12 34 56 78"
+              />
+            </div>
+          </div>
+
+          <!-- Date + Service -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="date" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_date} <span class="text-secondary" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="date" id="date" name="date" required
+                min={today}
+                class="form-input"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="service" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_service} <span class="text-secondary" aria-hidden="true">*</span>
+              </label>
+              <select id="service" name="service" required class="form-input">
+                <option value="" disabled selected>—</option>
+                {content.services.map(s => (
+                  <option value={s.value}>{s.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <!-- Couverts + Formule -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="couverts" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_guests} <span class="text-secondary" aria-hidden="true">*</span>
+              </label>
+              <select id="couverts" name="couverts" required class="form-input">
+                <option value="" disabled selected>—</option>
+                {Array.from({ length: 8 }, (_, i) => i + 1).map(n => (
+                  <option value={String(n)}>{t(`guests.${n}`)}</option>
+                ))}
+                <option value="9+">{t('guests.9')}</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="formule" class="font-body text-xs text-muted tracking-wide uppercase">
+                {content.form_formula}
+              </label>
+              <select id="formule" name="formule" class="form-input">
+                <option value="">—</option>
+                {content.formulas.map(f => (
+                  <option value={f.value}>{f.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="flex flex-col gap-1.5">
+            <label for="message" class="font-body text-xs text-muted tracking-wide uppercase">
+              {content.form_message}
+            </label>
+            <textarea
+              id="message" name="message"
+              rows="4"
+              class="form-input resize-none"
+              placeholder="Allergie, occasion spéciale, demande particulière…"
+            ></textarea>
+          </div>
+
+          <!-- RGPD -->
+          <p class="font-body text-xs text-muted leading-relaxed">{content.form_rgpd}</p>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            id="submit-btn"
+            class="font-body text-sm bg-secondary text-surface px-8 py-4 rounded-btn hover:bg-secondary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed w-full md:w-auto"
+          >
+            {content.form_submit}
+          </button>
+        </form>
+
+        <!-- Message de succès (caché par défaut) -->
+        <div id="form-success" class="hidden mt-8 p-6 bg-green-50 border border-green-200 rounded-sm">
+          <p class="font-body text-sm text-green-800">{content.form_success}</p>
+        </div>
+
+        <!-- Message d'erreur (caché par défaut) -->
+        <div id="form-error" class="hidden mt-8 p-6 bg-red-50 border border-red-200 rounded-sm">
+          <p class="font-body text-sm text-red-800">{content.form_error}</p>
+        </div>
+      </div>
+
+      <!-- Sidebar infos -->
+      <aside class="flex flex-col gap-6">
+
+        <!-- Téléphone -->
+        {brand.phone && (
+          <div class="bg-surface-alt p-6 rounded-sm flex flex-col gap-3">
+            <h3 class="font-display text-lg font-medium text-primary">{content.info_phone_title}</h3>
+            <a href={`tel:${brand.phone}`}
+               class="font-body text-sm text-secondary hover:text-primary transition-colors">
+              {brand.phone}
+            </a>
+            {brand.email && (
+              <a href={`mailto:${brand.email}`}
+                 class="font-body text-sm text-muted hover:text-primary transition-colors">
+                {brand.email}
+              </a>
+            )}
+          </div>
+        )}
+
+        <!-- Horaires -->
+        {brand.hours && brand.hours.length > 0 && (
+          <div class="bg-surface-alt p-6 rounded-sm flex flex-col gap-4">
+            <h3 class="font-display text-lg font-medium text-primary">{content.info_hours_title}</h3>
+            <table class="font-body text-sm w-full">
+              <tbody>
+                {brand.hours.map((row: { days: string; lunch?: string; dinner?: string }) => (
+                  <tr class="border-b border-rest last:border-0">
+                    <td class="py-2 pr-4 text-primary font-medium">{row.days}</td>
+                    <td class="py-2 text-muted text-right text-xs">
+                      {row.lunch && row.dinner
+                        ? `${row.lunch} · ${row.dinner}`
+                        : row.lunch || row.dinner || t('hours.closed')
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <!-- Adresse -->
+        {brand.street_address && (
+          <div class="bg-surface-alt p-6 rounded-sm flex flex-col gap-3">
+            <h3 class="font-display text-lg font-medium text-primary">{content.info_address_title}</h3>
+            <address class="not-italic font-body text-sm text-muted leading-relaxed">
+              {brand.street_address}<br />
+              {brand.postal_code} {brand.city}
+            </address>
+            {mapEmbedUrl && (
+              <iframe
+                src={mapEmbedUrl}
+                width="100%"
+                height="160"
+                style="border:0;"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                class="rounded-sm w-full mt-1"
+                title={t('contact.map_title')}
+              ></iframe>
+            )}
+          </div>
+        )}
+
+        <!-- Groupes -->
+        <div class="bg-primary p-6 rounded-sm flex flex-col gap-3">
+          <h3 class="font-display text-lg font-medium text-text-light">{content.info_groups_title}</h3>
+          <p class="font-body text-sm text-muted leading-relaxed">{content.info_groups_text}</p>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 1rem;
+    color: rgb(var(--primary));
+    background-color: rgb(var(--surface-alt));
+    border: 1px solid rgb(var(--border));
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .form-input:focus {
+    border-color: rgb(var(--secondary));
+  }
+
+  .form-input::placeholder {
+    color: rgb(var(--muted));
+  }
+
+  select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237a7060' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById('reservation-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const successEl = document.getElementById('form-success');
+    const errorEl = document.getElementById('form-error');
+
+    if (!form || !submitBtn) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      // Anti-spam honeypot
+      const honey = form.querySelector('[name="_honey"]');
+      if (honey && honey.value) return;
+
+      submitBtn.disabled = true;
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData).toString(),
+        });
+
+        if (res.ok) {
+          form.classList.add('hidden');
+          successEl && successEl.classList.remove('hidden');
+        } else {
+          throw new Error('HTTP ' + res.status);
+        }
+      } catch (_) {
+        errorEl && errorEl.classList.remove('hidden');
+        submitBtn.disabled = false;
+      }
+    });
+  })();
+</script>

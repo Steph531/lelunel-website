@@ -1,0 +1,72 @@
+{
+  "fr": {
+    "meta_title": "Réservation — Le Jardin",
+    "meta_description": "Réservez votre table au Jardin en ligne. Disponible pour le déjeuner et le dîner, du mardi au samedi.",
+    "hero_title": "Réservation",
+    "hero_subtitle": "Réservez votre table en quelques secondes",
+    "form_title": "Réserver une table",
+    "form_firstname": "Prénom",
+    "form_lastname": "Nom",
+    "form_email": "Adresse e-mail",
+    "form_phone": "Téléphone",
+    "form_date": "Date",
+    "form_service": "Service",
+    "form_guests": "Nombre de couverts",
+    "form_formula": "Formule souhaitée",
+    "form_message": "Message ou allergie (facultatif)",
+    "form_submit": "Confirmer la réservation",
+    "form_success": "Votre réservation a bien été envoyée ! Nous vous confirmerons par e-mail dans les plus brefs délais.",
+    "form_error": "Une erreur est survenue. Merci de réessayer ou de nous appeler directement.",
+    "form_rgpd": "Vos données sont utilisées uniquement pour la gestion de votre réservation, conformément au RGPD.",
+    "services": [
+      { "label": "Déjeuner (12h00 – 14h30)", "value": "dejeuner" },
+      { "label": "Dîner (19h30 – 22h00)", "value": "diner" }
+    ],
+    "formulas": [
+      { "label": "À la carte", "value": "carte" },
+      { "label": "Menu du Midi (28 €)", "value": "midi" },
+      { "label": "Menu Découverte (38 €)", "value": "decouverte" },
+      { "label": "Menu Dégustation (58 €)", "value": "degustation" }
+    ],
+    "info_phone_title": "Par téléphone",
+    "info_hours_title": "Nos horaires",
+    "info_address_title": "Adresse",
+    "info_groups_title": "Groupes & événements",
+    "info_groups_text": "Pour une réservation de 9 personnes et plus, ou pour un événement privatif, merci de nous contacter directement par téléphone ou par e-mail."
+  },
+  "en": {
+    "meta_title": "Reservation — Le Jardin",
+    "meta_description": "Book your table at Le Jardin online. Available for lunch and dinner, Tuesday to Saturday.",
+    "hero_title": "Reservation",
+    "hero_subtitle": "Book your table in seconds",
+    "form_title": "Book a table",
+    "form_firstname": "First name",
+    "form_lastname": "Last name",
+    "form_email": "Email address",
+    "form_phone": "Phone number",
+    "form_date": "Date",
+    "form_service": "Service",
+    "form_guests": "Number of guests",
+    "form_formula": "Preferred menu",
+    "form_message": "Message or allergy (optional)",
+    "form_submit": "Confirm reservation",
+    "form_success": "Your reservation has been sent! We will confirm by email as soon as possible.",
+    "form_error": "An error occurred. Please try again or call us directly.",
+    "form_rgpd": "Your data is used solely to manage your reservation, in accordance with GDPR.",
+    "services": [
+      { "label": "Lunch (12:00 – 2:30 PM)", "value": "lunch" },
+      { "label": "Dinner (7:30 – 10:00 PM)", "value": "dinner" }
+    ],
+    "formulas": [
+      { "label": "À la carte", "value": "carte" },
+      { "label": "Lunch menu (€28)", "value": "midi" },
+      { "label": "Discovery menu (€38)", "value": "decouverte" },
+      { "label": "Tasting menu (€58)", "value": "degustation" }
+    ],
+    "info_phone_title": "By phone",
+    "info_hours_title": "Opening hours",
+    "info_address_title": "Address",
+    "info_groups_title": "Groups & events",
+    "info_groups_text": "For a reservation of 9 or more, or for a private event, please contact us directly by phone or email."
+  }
+}

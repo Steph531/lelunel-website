@@ -1,0 +1,30 @@
+{
+  "name": "astro-cms-starter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@fontsource/montserrat": "^5.2.8",
+    "@fontsource/playfair-display": "^5.2.8",
+    "astro": "^5.4.0",
+    "lucide-astro": "^0.556.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "@astrojs/tailwind": "^5.1.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "tailwindcss": "^3.4.0",
+    "typescript": "~5.7.0"
+  },
+  "engines": {
+    "node": ">=18.17.1"
+  }
+}

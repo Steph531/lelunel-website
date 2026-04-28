@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import ReservationSection from '../../components/sections/reservation/ReservationSection.astro';
+import { getPageContent } from '../../utils/i18n';
+import type { Locale } from '../../utils/i18n';
+import { siteConfig } from '../../siteConfig';
+
+export function getStaticPaths() {
+  const locales: Locale[] = siteConfig.multilanguage ? ['fr', 'en'] : ['fr'];
+  return locales.map(locale => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const content = await getPageContent('reservation', locale);
+---
+
+<BaseLayout
+  title={content.meta_title}
+  description={content.meta_description}
+  lang={locale}
+  currentPath={Astro.url.pathname}
+>
+  <PageHero title={content.hero_title} subtitle={content.hero_subtitle} image="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80&auto=format&fit=crop" />
+  <ReservationSection content={content} locale={locale} />
+</BaseLayout>

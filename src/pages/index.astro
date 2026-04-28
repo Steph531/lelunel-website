@@ -1,0 +1,42 @@
+---
+// NE PAS faire de redirect serveur (302) ici.
+// Netlify Identity envoie les tokens via le hash de l'URL :
+//   /#invite_token=XXX  /#confirmation_token=XXX  /#recovery_token=XXX
+// Un redirect 302 côté serveur ignore le hash → token perdu → impossible
+// de définir son mot de passe. On gère le redirect en JavaScript.
+
+import { siteConfig } from '../siteConfig';
+// En monolangue : redirige vers /fr/ (les pages résident toujours là).
+// En prod Netlify, la règle `/* /fr/:splat 200!` intercèpte avant que cette page
+// ne soit servie, donc l'utilisateur ne voit jamais /fr/ dans l'URL.
+const defaultPath = '/fr/';
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chargement…</title>
+  <!-- Le widget doit se charger AVANT le redirect pour intercepter les tokens -->
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <script is:inline define:vars={{ defaultPath }}>
+    (function () {
+      var hash = window.location.hash;
+      var hasToken =
+        hash.indexOf('invite_token=') !== -1 ||
+        hash.indexOf('confirmation_token=') !== -1 ||
+        hash.indexOf('recovery_token=') !== -1 ||
+        hash.indexOf('access_token=') !== -1;
+
+      if (!hasToken) {
+        // Aucun token : redirect normal vers la langue par défaut
+        window.location.replace(defaultPath);
+      }
+      // Si token présent : le widget Netlify Identity gère la suite automatiquement
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+---
+import { localePath } from '../../utils/i18n';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  buttonLabel: string;
+  locale: string;
+}
+
+const { title, subtitle, buttonLabel, locale } = Astro.props;
+---
+
+<section class="bg-secondary">
+  <div class="max-w-site mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-row items-center justify-between gap-8">
+    <div>
+      <h2 class="font-display text-3xl md:text-4xl font-light text-surface leading-snug">
+        {title}
+      </h2>
+      {subtitle && (
+        <p class="font-body text-sm text-surface/80 mt-3">{subtitle}</p>
+      )}
+    </div>
+    <a
+      href={localePath(locale, '/reservation/')}
+      class="shrink-0 font-body text-sm bg-primary text-text-light px-8 py-4 rounded-btn hover:bg-surface-dark transition-colors"
+    >
+      {buttonLabel}
+    </a>
+  </div>
+</section>

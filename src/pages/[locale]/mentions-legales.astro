@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import MentionsLegalesSection from '../../components/sections/legal/MentionsLegalesSection.astro';
+import { getBrand } from '../../utils/i18n';
+import type { Locale } from '../../utils/i18n';
+import { getEntry } from 'astro:content';
+import { siteConfig } from '../../siteConfig';
+
+export function getStaticPaths() {
+  const locales: Locale[] = siteConfig.multilanguage ? ['fr', 'en'] : ['fr'];
+  return locales.map(locale => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+
+const brand = await getBrand(locale);
+const entry = await getEntry('mentions', 'index');
+if (!entry) throw new Error('Contenu introuvable : mentions/index');
+
+const dev = entry.data.developer;
+const content: Record<string, string> = (entry.data[locale as 'fr' | 'en'] ?? entry.data['fr']) ?? {};
+
+function s(key: string): string {
+  return content[key] ?? '';
+}
+
+const title = `${s('meta_title_prefix')} — ${brand.site_name ?? ''}`;
+const description = s('meta_description');
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={locale}
+  currentPath={Astro.url.pathname}
+  noIndex={true}
+>
+  <PageHero
+    title={s('hero_title')}
+    subtitle={s('hero_subtitle')}
+  />
+  <MentionsLegalesSection content={content} brand={brand} dev={dev} />
+</BaseLayout>

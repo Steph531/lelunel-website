@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import RestaurantStorySection from '../../components/sections/equipe/RestaurantStorySection.astro';
+import ValuesSection from '../../components/sections/equipe/ValuesSection.astro';
+import ChefProfileSection from '../../components/sections/equipe/ChefProfileSection.astro';
+import ChefTimelineSection from '../../components/sections/equipe/ChefTimelineSection.astro';
+import TeamGridSection from '../../components/sections/equipe/TeamGridSection.astro';
+import CtaBand from '../../components/ui/CtaBand.astro';
+import { getPageContent } from '../../utils/i18n';
+import type { Locale } from '../../utils/i18n';
+import { siteConfig } from '../../siteConfig';
+
+export function getStaticPaths() {
+  const locales: Locale[] = siteConfig.multilanguage ? ['fr', 'en'] : ['fr'];
+  return locales.map(locale => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const content = await getPageContent('histoire', locale);
+---
+
+<BaseLayout
+  title={content.meta_title}
+  description={content.meta_description}
+  lang={locale}
+  currentPath={Astro.url.pathname}
+>
+  <PageHero title={content.hero_title} image="https://images.unsplash.com/photo-1556910103-1c02745ef51d?w=1600&q=80&auto=format&fit=crop" />
+  <RestaurantStorySection content={content} />
+  <ValuesSection content={content} />
+  {siteConfig.chef && (
+    <>
+      <ChefProfileSection content={content} />
+      <ChefTimelineSection content={content} />
+    </>
+  )}
+  <TeamGridSection content={content} />
+  <CtaBand
+    title={content.cta_title}
+    buttonLabel={content.cta_button}
+    locale={locale}
+  />
+</BaseLayout>

@@ -1,0 +1,124 @@
+---
+import '../styles/global.css';
+import { getBrand } from '../utils/i18n';
+import type { Locale } from '../utils/i18n';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import MobileReserveBar from '../components/layout/MobileReserveBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: string;
+  currentPath: string;
+  noIndex?: boolean;
+}
+
+const { title, description, lang, currentPath, noIndex = false } = Astro.props;
+
+const siteBase = (Astro.site ?? new URL('https://example.com')).origin;
+const canonicalUrl = new URL(currentPath, siteBase).href;
+
+// ─── Paramètres globaux depuis la config de marque ───────────────────────────
+const brand = await getBrand(lang);
+
+const siteName      = brand.site_name  || title;
+const ogImage       = brand.og_image   ? new URL(brand.og_image, siteBase).href : null;
+const twitterHandle = brand.twitter_handle || null;
+const ogLocale      = lang === 'fr' ? 'fr_FR' : 'en_US';
+
+// ─── JSON-LD : schéma Restaurant ─────────────────────────────────────────────
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: siteName,
+  description,
+  url: siteBase,
+};
+if (ogImage)           jsonLd.image     = ogImage;
+if (brand.phone)       jsonLd.telephone = brand.phone;
+if (brand.email)       jsonLd.email     = brand.email;
+if (brand.street_address || brand.city) {
+  jsonLd.address = {
+    '@type': 'PostalAddress',
+    ...(brand.street_address && { streetAddress:   brand.street_address }),
+    ...(brand.city           && { addressLocality: brand.city           }),
+    ...(brand.postal_code    && { postalCode:      brand.postal_code    }),
+    addressCountry: brand.country || 'FR',
+  };
+}
+
+const isProd = import.meta.env.PROD;
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO de base -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+  {noIndex && <meta name="robots" content="noindex, nofollow" />}
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonicalUrl} />
+  <meta property="og:title"       content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:locale"      content={ogLocale} />
+  <meta property="og:site_name"   content={siteName} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  {ogImage && <meta property="og:image:width"  content="1200" />}
+  {ogImage && <meta property="og:image:height" content="630" />}
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={title} />
+  <meta name="twitter:description" content={description} />
+  {ogImage       && <meta name="twitter:image" content={ogImage} />}
+  {twitterHandle && <meta name="twitter:site"  content={twitterHandle} />}
+
+  <!-- JSON-LD : Restaurant -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+
+  <!--
+    ── Google Fonts ─────────────────────────────────────────────────────────────
+    Pour changer les polices :
+    1. Remplacer l'URL ci-dessous par la nouvelle URL Google Fonts
+    2. Mettre à jour fontFamily dans tailwind.config.mjs
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body class="min-h-screen flex flex-col bg-surface text-primary antialiased">
+  <Nav locale={lang as Locale} currentPath={currentPath} />
+  <main>
+    <slot />
+  </main>
+  <Footer locale={lang as Locale} />
+  <MobileReserveBar locale={lang as Locale} />
+
+  <!-- Netlify Identity Widget : uniquement en production -->
+  {isProd && <script is:inline defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>}
+
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', function(user) {
+        if (!user) {
+          window.netlifyIdentity.on('login', function() {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

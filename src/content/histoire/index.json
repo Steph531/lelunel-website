@@ -1,0 +1,126 @@
+{
+  "fr": {
+    "meta_title": "Notre Histoire — Le Jardin",
+    "meta_description": "Découvrez l'histoire du Jardin, nos valeurs et l'équipe passionnée qui vous accueille chaque jour.",
+    "hero_title": "Notre Histoire",
+    "story_title": "Une table née d'une passion",
+    "story_description": "Le Jardin est né en 2019 d'une envie simple : créer un endroit où l'on mange bien, où l'on se sent bien. Une cuisine de marché, des producteurs choisis avec soin, une salle où chaque détail a été pensé pour vous. Pas de chichis, pas de faux-semblants — juste le plaisir sincère du partage autour d'une belle assiette.",
+    "story_image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80&auto=format&fit=crop",
+    "values_title": "Ce qui nous guide",
+    "values": [
+      {
+        "icon": "shield",
+        "title": "Honnêteté",
+        "description": "Pas de fausse promesse. Ce qui est dans l'assiette reflète exactement ce qui est annoncé sur la carte."
+      },
+      {
+        "icon": "leaf",
+        "title": "Respect des saisons",
+        "description": "Nous refusons de servir des fraises en janvier. Notre carte change chaque mois, au rythme du marché."
+      },
+      {
+        "icon": "heart",
+        "title": "Attention à l'autre",
+        "description": "Chaque détail compte. Du sourire à l'accueil à la dernière bouchée, nous sommes là pour vous."
+      }
+    ],
+    "team_title": "L'équipe en salle et en cuisine",
+    "team": [
+      { "name": "Léa Fontaine", "role": "Sous-cheffe", "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&q=80&auto=format&fit=crop" },
+      { "name": "Antoine Dubois", "role": "Chef pâtissier", "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80&auto=format&fit=crop" },
+      { "name": "Sophie Martin", "role": "Sommelière", "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=80&auto=format&fit=crop" },
+      { "name": "Marc Lefebvre", "role": "Maître d'hôtel", "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80&auto=format&fit=crop" }
+    ],
+    "cta_title": "Venez nous rencontrer",
+    "cta_button": "Réserver une table",
+    "chef_name": "Thomas Marceau",
+    "chef_role": "Chef de cuisine",
+    "chef_description": "Formé auprès des plus grands — Alain Ducasse, Michel Troisgros — Thomas Marceau a décidé à 35 ans de revenir aux sources. Il ouvre Le Jardin avec une seule ambition : proposer une cuisine sincère, ancrée dans le terroir, qui met en valeur les producteurs locaux. Sa philosophie ? Le meilleur produit, le geste juste, et le plaisir partagé.",
+    "chef_image": "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=700&q=80&auto=format&fit=crop",
+    "timeline_title": "Son parcours",
+    "timeline": [
+      {
+        "year": "2004",
+        "title": "Formation au Cordon Bleu",
+        "description": "Diplôme de cuisine classique française. Premiers stages dans des bistrots parisiens de quartier."
+      },
+      {
+        "year": "2008",
+        "title": "Chef de partie chez Ducasse",
+        "description": "Trois années formatrices au Plaza Athénée. Apprentissage de la rigueur et de l'exigence produit."
+      },
+      {
+        "year": "2013",
+        "title": "Sous-chef à Lyon",
+        "description": "Aux côtés de Michel Troisgros pendant cinq ans. Révélation sur la cuisine de terroir et les accords régionaux."
+      },
+      {
+        "year": "2019",
+        "title": "Ouverture du Jardin",
+        "description": "Retour à Paris avec un projet en propre : une table intime, de saison, qui célèbre les artisans et producteurs locaux."
+      }
+    ]
+  },
+  "en": {
+    "meta_title": "Our Story — Le Jardin",
+    "meta_description": "Discover the story of Le Jardin, our values and the passionate team that welcomes you every day.",
+    "hero_title": "Our Story",
+    "story_title": "A table born from passion",
+    "story_description": "Le Jardin was born in 2019 from a simple desire: to create a place where the food is great and the welcome even better. Market cuisine, carefully chosen producers, a dining room where every detail has been designed for you. No fuss, no pretence — just the sincere pleasure of sharing a beautiful plate.",
+    "story_image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80&auto=format&fit=crop",
+    "values_title": "What guides us",
+    "values": [
+      {
+        "icon": "shield",
+        "title": "Honesty",
+        "description": "No false promises. What's on the plate reflects exactly what's listed on the menu."
+      },
+      {
+        "icon": "leaf",
+        "title": "Respect for seasons",
+        "description": "We refuse to serve strawberries in January. Our menu changes every month, following the market."
+      },
+      {
+        "icon": "heart",
+        "title": "Care for people",
+        "description": "Every detail matters. From the smile at reception to the last bite, we are here for you."
+      }
+    ],
+    "team_title": "Front of house & kitchen team",
+    "team": [
+      { "name": "Léa Fontaine", "role": "Sous-chef", "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&q=80&auto=format&fit=crop" },
+      { "name": "Antoine Dubois", "role": "Pastry chef", "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80&auto=format&fit=crop" },
+      { "name": "Sophie Martin", "role": "Sommelier", "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=80&auto=format&fit=crop" },
+      { "name": "Marc Lefebvre", "role": "Head waiter", "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80&auto=format&fit=crop" }
+    ],
+    "cta_title": "Come and meet us",
+    "cta_button": "Book a table",
+    "chef_name": "Thomas Marceau",
+    "chef_role": "Head chef",
+    "chef_description": "Trained alongside the greats — Alain Ducasse, Michel Troisgros — Thomas Marceau decided at 35 to return to his roots. He opened Le Jardin with a single ambition: to offer honest, terroir-driven cuisine that showcases local producers. His philosophy? The best produce, the precise gesture, and the shared pleasure.",
+    "chef_image": "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=700&q=80&auto=format&fit=crop",
+    "timeline_title": "His journey",
+    "timeline": [
+      {
+        "year": "2004",
+        "title": "Training at Le Cordon Bleu",
+        "description": "Diploma in classical French cuisine. First stages in neighbourhood Parisian bistros."
+      },
+      {
+        "year": "2008",
+        "title": "Chef de partie at Ducasse",
+        "description": "Three formative years at the Plaza Athénée. Learning rigour and the highest product standards."
+      },
+      {
+        "year": "2013",
+        "title": "Sous-chef in Lyon",
+        "description": "Five years alongside Michel Troisgros. A revelation on terroir cuisine and regional pairings."
+      },
+      {
+        "year": "2019",
+        "title": "Opening of Le Jardin",
+        "description": "A return to Paris with his own project: an intimate, seasonal table celebrating local artisans and producers."
+      }
+    ]
+  }
+}

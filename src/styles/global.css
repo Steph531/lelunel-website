@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  ══════════════════════════════════════════════════════════════════
+  PERSONNALISATION — modifier uniquement ce bloc pour chaque projet
+  ══════════════════════════════════════════════════════════════════
+  Couleurs : valeurs en RGB séparées par des espaces (sans virgules).
+  Ce format permet les modificateurs d'opacité Tailwind (bg-secondary/50).
+
+  Polices : noms exacts tels qu'ils apparaissent dans l'URL Google Fonts.
+  Mettre à jour aussi l'URL Google Fonts dans src/layouts/BaseLayout.astro.
+*/
+:root {
+  /* Couleurs (RGB, espaces) */
+  --primary: 26 26 24; /* #1a1a18 — fond sombre, texte principal   */
+  --secondary: 181 135 74; /* #b5874a — accent doré, CTA               */
+  --surface: 250 248 244; /* #faf8f4 — fond clair principal            */
+  --surface-alt: 242 237 229; /* #f2ede5 — fond clair alternatif           */
+  --surface-dark: 17 17 16; /* #111110 — hero, sections très sombres     */
+  --muted: 122 112 96; /* #7a7060 — texte secondaire, labels        */
+  --text-light: 245 240 232; /* #f5f0e8 — texte sur fond sombre           */
+  --border: 228 222 211; /* #e4ded3 — bordures et séparateurs         */
+
+  /* Polices */
+  --font-display: "Cormorant Garamond";
+  --font-body: "Jost";
+
+  /* Misc */
+  --radius: 12px;
+  --radius-sm: 6px;
+  --radius-btn: 12px;
+  --max-w: 1200px;
+
+  /* Letter-spacing */
+  --tracking-tag: 0.15em; /* taglines nav/footer */
+  --tracking-label: 0.2em; /* labels formulaire, badges, titres de carte */
+  --tracking-subtitle: 0.25em; /* sous-titres de section */
+  --tracking-display: 0.3em; /* texte hero */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body), "Segoe UI", system-ui, sans-serif;
+    background-color: rgb(var(--surface));
+    color: rgb(var(--primary));
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display), Georgia, Cambria, serif;
+  }
+
+  /* Empêche le zoom automatique iOS sur focus (déclenché si font-size < 16px) */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 1rem;
+  }
+}
+
+/*
+  Utilitaires CSS — valeurs résolues depuis les variables de :root.
+  Modifier uniquement les variables dans :root ci-dessus, pas les classes.
+*/
+@layer utilities {
+  /* Border-radius */
+  .rounded {
+    border-radius: var(--radius);
+  }
+  .rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+  .rounded-btn {
+    border-radius: var(--radius-btn);
+  }
+
+  /* Letter-spacing */
+  .tracking-tag {
+    letter-spacing: var(--tracking-tag);
+  }
+  .tracking-label {
+    letter-spacing: var(--tracking-label);
+  }
+  .tracking-subtitle {
+    letter-spacing: var(--tracking-subtitle);
+  }
+  .tracking-display {
+    letter-spacing: var(--tracking-display);
+  }
+
+  /* Animations scroll (fade-up) — le JS ajoute .visible via IntersectionObserver */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

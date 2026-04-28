@@ -1,0 +1,51 @@
+---
+import type { HomeContent } from '../../../utils/i18n';
+import { getTranslator } from '../../../utils/i18n';
+import { Sprout, ChefHat, Users, Wine } from 'lucide-astro';
+
+interface Props {
+  content: HomeContent;
+  locale: string;
+}
+
+const { content, locale } = Astro.props;
+const t = await getTranslator(locale);
+
+const iconMap: Record<string, any> = {
+  sprout: Sprout,
+  'chef-hat': ChefHat,
+  users: Users,
+  wine: Wine,
+};
+---
+
+<section class="bg-surface py-20 md:py-28">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+
+    <h2 class="fade-up font-display text-3xl md:text-4xl font-light text-primary mb-12 md:mb-16">
+      {t('home.arguments_title')}
+      <span class="block w-12 h-px bg-secondary mt-4"></span>
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {content.arguments.map((arg, i) => (
+        <div class="fade-up flex flex-col gap-4" style={`transition-delay: ${i * 0.08}s`}>
+          {(() => { const Icon = iconMap[arg.icon]; return Icon ? <Icon size={32} stroke-width={1.5} class="text-secondary" /> : null; })()}
+          <h3 class="font-display text-xl font-medium text-primary">{arg.title}</h3>
+          <p class="font-body text-sm text-muted leading-relaxed">{arg.description}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var els = document.querySelectorAll('section .fade-up');
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(function(el) { io.observe(el); });
+  })();
+</script>

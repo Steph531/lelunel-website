@@ -1,0 +1,161 @@
+{
+  "fr": {
+    "meta_title": "Le Jardin — Cuisine du marché à Paris",
+    "meta_description": "Restaurant gastronomique à Paris. Cuisine française de saison, produits locaux, cave à vins sélectionnée.",
+    "strip_open_label": "Ouvert",
+    "strip_open_value": "Mar – Sam",
+    "strip_service_label": "Services",
+    "strip_service_value": "Midi & Soir",
+    "strip_book_label": "Réservation",
+    "strip_book_value": "Recommandée",
+    "strip_price_label": "Prix moyen",
+    "strip_price_value": "45 €",
+    "arguments": [
+      {
+        "icon": "sprout",
+        "title": "Produits de saison",
+        "description": "Nous travaillons directement avec des producteurs locaux pour vous offrir le meilleur de chaque saison."
+      },
+      {
+        "icon": "chef-hat",
+        "title": "Cuisine sincère",
+        "description": "Pas de chichis, des saveurs vraies. Chaque plat est préparé avec soin et respect du produit."
+      },
+      {
+        "icon": "users",
+        "title": "Accueil chaleureux",
+        "description": "Notre équipe est là pour vous faire passer un moment mémorable, dans une atmosphère détendue."
+      }
+    ],
+    "menu_preview_starters": [
+      { "name": "Velouté de butternut, noisettes torréfiées", "price": "12 €" },
+      { "name": "Tartare de bœuf façon maison", "price": "16 €" },
+      { "name": "Burrata, tomates anciennes, basilic", "price": "14 €" }
+    ],
+    "menu_preview_mains": [
+      { "name": "Filet de dorade, légumes rôtis, sauce vierge", "price": "26 €" },
+      { "name": "Magret de canard, polenta crémeuse, jus corsé", "price": "28 €" },
+      { "name": "Risotto aux champignons des bois, parmesan", "price": "22 €" }
+    ],
+    "menu_preview_desserts": [
+      { "name": "Tarte fine aux pommes, crème fraîche", "price": "9 €" },
+      { "name": "Fondant chocolat, glace vanille maison", "price": "10 €" }
+    ],
+    "menu_preview_formulas": [
+      { "name": "Menu du Midi (Entrée + Plat)", "price": "28 €" },
+      { "name": "Menu Découverte (E + P + D)", "price": "38 €" }
+    ],
+    "gallery_images": [
+      { "src": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80&auto=format&fit=crop", "alt": "Salle du restaurant", "variant": "wide" },
+      { "src": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80&auto=format&fit=crop", "alt": "Un plat du chef", "variant": "tall" },
+      { "src": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=600&q=80&auto=format&fit=crop", "alt": "Détail de table", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80&auto=format&fit=crop", "alt": "Cave à vins", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop", "alt": "En cuisine", "variant": "tall" },
+      { "src": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80&auto=format&fit=crop", "alt": "Terrasse", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80&auto=format&fit=crop", "alt": "Dessert signature", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1200&q=80&auto=format&fit=crop", "alt": "Ambiance salle", "variant": "wide" }
+    ],
+    "reviews": [
+      {
+        "author": "Marie L.",
+        "date": "Octobre 2024",
+        "rating": 5,
+        "comment": "Une adresse qui mérite vraiment le détour. La cuisine est créative sans être prétentieuse, les produits sont d'une fraîcheur impeccable. Service aux petits soins."
+      },
+      {
+        "author": "Paul D.",
+        "date": "Septembre 2024",
+        "rating": 5,
+        "comment": "Le meilleur tartare que j'ai mangé à Paris. Cave à vins remarquable, l'équipe est de bon conseil. On reviendra sans hésiter."
+      },
+      {
+        "author": "Camille R.",
+        "date": "Août 2024",
+        "rating": 4,
+        "comment": "Belle découverte ! Le menu du midi est un excellent rapport qualité-prix. Cadre élégant et détendu, parfait pour un déjeuner d'affaires."
+      }
+    ]
+  },
+  "en": {
+    "meta_title": "Le Jardin — Market cuisine in Paris",
+    "meta_description": "Fine dining restaurant in Paris. Seasonal French cuisine, local produce, curated wine cellar.",
+    "strip_open_label": "Open",
+    "strip_open_value": "Tue – Sat",
+    "strip_service_label": "Service",
+    "strip_service_value": "Lunch & Dinner",
+    "strip_book_label": "Reservation",
+    "strip_book_value": "Recommended",
+    "strip_price_label": "Avg. price",
+    "strip_price_value": "€45",
+    "arguments": [
+      {
+        "icon": "sprout",
+        "title": "Seasonal produce",
+        "description": "We work directly with local producers to bring you the best of each season."
+      },
+      {
+        "icon": "chef-hat",
+        "title": "Honest cuisine",
+        "description": "No fuss, real flavours. Each dish is prepared with care and respect for the ingredient."
+      },
+      {
+        "icon": "users",
+        "title": "Warm welcome",
+        "description": "Our team is here to make your experience memorable, in a relaxed atmosphere."
+      },
+      {
+        "icon": "wine",
+        "title": "Wine cellar",
+        "description": "A selection of natural wines from passionate producers, to accompany every meal."
+      }
+    ],
+    "menu_preview_starters": [
+      { "name": "Butternut squash velouté, toasted hazelnuts", "price": "€12" },
+      { "name": "Beef tartare, house style", "price": "€16" },
+      { "name": "Burrata, heirloom tomatoes, basil", "price": "€14" }
+    ],
+    "menu_preview_mains": [
+      { "name": "Sea bream fillet, roasted vegetables, sauce vierge", "price": "€26" },
+      { "name": "Duck breast, creamy polenta, rich jus", "price": "€28" },
+      { "name": "Wild mushroom risotto, Parmesan", "price": "€22" }
+    ],
+    "menu_preview_desserts": [
+      { "name": "Thin apple tart, crème fraîche", "price": "€9" },
+      { "name": "Chocolate fondant, house vanilla ice cream", "price": "€10" }
+    ],
+    "menu_preview_formulas": [
+      { "name": "Lunch menu (Starter + Main)", "price": "€28" },
+      { "name": "Discovery menu (S + M + D)", "price": "€38" }
+    ],
+    "gallery_images": [
+      { "src": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80&auto=format&fit=crop", "alt": "Restaurant dining room", "variant": "wide" },
+      { "src": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80&auto=format&fit=crop", "alt": "A chef's dish", "variant": "tall" },
+      { "src": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=600&q=80&auto=format&fit=crop", "alt": "Table detail", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80&auto=format&fit=crop", "alt": "Wine cellar", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop", "alt": "In the kitchen", "variant": "tall" },
+      { "src": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80&auto=format&fit=crop", "alt": "Terrace", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80&auto=format&fit=crop", "alt": "Signature dessert", "variant": "normal" },
+      { "src": "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1200&q=80&auto=format&fit=crop", "alt": "Dining room ambiance", "variant": "wide" }
+    ],
+    "reviews": [
+      {
+        "author": "Marie L.",
+        "date": "October 2024",
+        "rating": 5,
+        "comment": "An address that truly deserves the trip. The cuisine is creative without being pretentious, the produce is impeccably fresh. Attentive service."
+      },
+      {
+        "author": "Paul D.",
+        "date": "September 2024",
+        "rating": 5,
+        "comment": "The best tartare I've had in Paris. Remarkable wine list, the team gives great recommendations. We'll be back without hesitation."
+      },
+      {
+        "author": "Camille R.",
+        "date": "August 2024",
+        "rating": 4,
+        "comment": "A great find! The lunch menu is excellent value. Elegant and relaxed setting, perfect for a business lunch."
+      }
+    ]
+  }
+}

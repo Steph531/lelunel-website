@@ -1,0 +1,59 @@
+---
+import type { HistoireContent } from '../../../utils/i18n';
+import { netlifyImg } from '../../../utils/image';
+
+interface Props {
+  content: HistoireContent;
+}
+
+const { content } = Astro.props;
+const hasImage = !!content.story_image;
+---
+
+{(content.story_title || content.story_description) && (
+  <section class="bg-surface py-20 md:py-28">
+    <div class="max-w-site mx-auto px-4 md:px-8">
+      <div class={`grid grid-cols-1 gap-12 md:gap-20 items-center ${hasImage ? 'md:grid-cols-2' : ''}`}>
+
+        {hasImage && (
+          <div class="fade-up relative aspect-[4/3] overflow-hidden rounded-sm">
+            <img
+              src={netlifyImg(content.story_image!, 700)}
+              alt={content.story_title ?? ''}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        <div
+          class={`fade-up flex flex-col gap-6 ${!hasImage ? 'max-w-2xl' : ''}`}
+          style={hasImage ? 'transition-delay: 0.1s' : ''}
+        >
+          {content.story_title && (
+            <h2 class="font-display text-3xl md:text-4xl font-light text-primary leading-tight">
+              {content.story_title}
+              <span class="block w-12 h-px bg-secondary mt-4"></span>
+            </h2>
+          )}
+          {content.story_description && (
+            <p class="font-body text-sm text-muted leading-loose">
+              {content.story_description}
+            </p>
+          )}
+        </div>
+
+      </div>
+    </div>
+  </section>
+)}
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroSection from '../../components/sections/home/HeroSection.astro';
+import HeroStrip from '../../components/sections/home/HeroStrip.astro';
+import ArgumentsSection from '../../components/sections/home/ArgumentsSection.astro';
+import MenuPreviewSection from '../../components/sections/home/MenuPreviewSection.astro';
+import GallerySection from '../../components/sections/home/GallerySection.astro';
+import AboutSection from '../../components/sections/home/AboutSection.astro';
+import ReviewsSection from '../../components/sections/home/ReviewsSection.astro';
+import HoursSection from '../../components/sections/home/HoursSection.astro';
+import CtaBand from '../../components/ui/CtaBand.astro';
+import { getPageContent, getBrand, getTranslator } from '../../utils/i18n';
+import type { Locale } from '../../utils/i18n';
+import { siteConfig } from '../../siteConfig';
+
+export function getStaticPaths() {
+  const locales: Locale[] = siteConfig.multilanguage ? ['fr', 'en'] : ['fr'];
+  return locales.map(locale => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const content = await getPageContent('home', locale);
+const brand   = await getBrand(locale);
+const t       = await getTranslator(locale);
+---
+
+<BaseLayout
+  title={content.meta_title}
+  description={content.meta_description}
+  lang={locale}
+  currentPath={Astro.url.pathname}
+>
+  <HeroSection brand={brand} locale={locale} />
+  <HeroStrip content={content} />
+  <ArgumentsSection content={content} locale={locale} />
+  <MenuPreviewSection content={content} locale={locale} brand={brand} />
+  <GallerySection content={content} locale={locale} />
+  <AboutSection brand={brand} locale={locale} />
+  <ReviewsSection content={content} locale={locale} />
+  <HoursSection locale={locale} />
+  <CtaBand
+    title={t('home.cta_title')}
+    subtitle={t('home.cta_subtitle')}
+    buttonLabel={t('home.cta_button')}
+    locale={locale}
+  />
+</BaseLayout>

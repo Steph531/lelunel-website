@@ -1,0 +1,215 @@
+---
+import type { CarteContent } from '../../../utils/i18n';
+import { getTranslator } from '../../../utils/i18n';
+
+interface Props {
+  content: CarteContent;
+  locale: string;
+}
+
+const { content, locale } = Astro.props;
+const t = await getTranslator(locale);
+
+const badgeStyles: Record<string, string> = {
+  signature: 'bg-secondary/20 text-secondary',
+  vege:      'bg-green-100 text-green-800',
+  new:       'bg-blue-100 text-blue-800',
+  gluten:    'bg-yellow-100 text-yellow-800',
+  maison:    'bg-purple-100 text-purple-800',
+};
+---
+
+<section class="bg-surface py-12 md:py-16">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+
+    <!-- Tabs CSS-only (radio inputs) -->
+    <input type="radio" id="tab-entrees"  name="carte-tabs" class="sr-only" checked />
+    <input type="radio" id="tab-plats"    name="carte-tabs" class="sr-only" />
+    <input type="radio" id="tab-desserts" name="carte-tabs" class="sr-only" />
+    <input type="radio" id="tab-fromages" name="carte-tabs" class="sr-only" />
+    <input type="radio" id="tab-formules" name="carte-tabs" class="sr-only" />
+
+    <!-- Barre des onglets (sticky) -->
+    <div class="sticky top-[70px] z-30 bg-surface border-b border-rest -mx-4 md:-mx-8 px-4 md:px-8 mb-10">
+      <div class="max-w-site mx-auto flex gap-0 overflow-x-auto scrollbar-none">
+        <label for="tab-entrees"  class="tab-btn">{t('carte.tab_entrees')}</label>
+        <label for="tab-plats"    class="tab-btn">{t('carte.tab_plats')}</label>
+        <label for="tab-desserts" class="tab-btn">{t('carte.tab_desserts')}</label>
+        <label for="tab-fromages" class="tab-btn">{t('carte.tab_fromages')}</label>
+        <label for="tab-formules" class="tab-btn">{t('carte.tab_formules')}</label>
+      </div>
+    </div>
+
+    <!-- Panels -->
+    <div class="tab-panels">
+
+      <!-- Entrées -->
+      <div class="panel-entrees grid grid-cols-1 md:grid-cols-2 gap-6">
+        {content.entrees.map((item, i) => (
+          <article class="fade-up flex flex-col gap-2 p-6 bg-surface-alt rounded-sm"
+                   style={`transition-delay: ${i * 0.05}s`}>
+            <div class="flex justify-between items-start gap-4">
+              <h3 class="font-display text-lg font-medium text-primary leading-snug flex-1">{item.name}</h3>
+              <span class="shrink-0 font-display text-xl text-secondary">{item.price} €</span>
+            </div>
+            {item.description && (
+              <p class="font-body text-sm text-muted leading-relaxed">{item.description}</p>
+            )}
+            {item.badges && item.badges.length > 0 && (
+              <div class="flex flex-wrap gap-2 mt-1">
+                {item.badges.map(badge => (
+                  <span class:list={['font-body text-[0.65rem] px-2 py-0.5 rounded-full tracking-wide', badgeStyles[badge] ?? '']}>
+                    {t(`badge.${badge}`)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+
+      <!-- Plats -->
+      <div class="panel-plats grid grid-cols-1 md:grid-cols-2 gap-6">
+        {content.plats.map((item, i) => (
+          <article class="fade-up flex flex-col gap-2 p-6 bg-surface-alt rounded-sm"
+                   style={`transition-delay: ${i * 0.05}s`}>
+            <div class="flex justify-between items-start gap-4">
+              <h3 class="font-display text-lg font-medium text-primary leading-snug flex-1">{item.name}</h3>
+              <span class="shrink-0 font-display text-xl text-secondary">{item.price} €</span>
+            </div>
+            {item.description && (
+              <p class="font-body text-sm text-muted leading-relaxed">{item.description}</p>
+            )}
+            {item.badges && item.badges.length > 0 && (
+              <div class="flex flex-wrap gap-2 mt-1">
+                {item.badges.map(badge => (
+                  <span class:list={['font-body text-[0.65rem] px-2 py-0.5 rounded-full tracking-wide', badgeStyles[badge] ?? '']}>
+                    {t(`badge.${badge}`)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+
+      <!-- Desserts -->
+      <div class="panel-desserts grid grid-cols-1 md:grid-cols-2 gap-6">
+        {content.desserts.map((item, i) => (
+          <article class="fade-up flex flex-col gap-2 p-6 bg-surface-alt rounded-sm"
+                   style={`transition-delay: ${i * 0.05}s`}>
+            <div class="flex justify-between items-start gap-4">
+              <h3 class="font-display text-lg font-medium text-primary leading-snug flex-1">{item.name}</h3>
+              <span class="shrink-0 font-display text-xl text-secondary">{item.price} €</span>
+            </div>
+            {item.description && (
+              <p class="font-body text-sm text-muted leading-relaxed">{item.description}</p>
+            )}
+            {item.badges && item.badges.length > 0 && (
+              <div class="flex flex-wrap gap-2 mt-1">
+                {item.badges.map(badge => (
+                  <span class:list={['font-body text-[0.65rem] px-2 py-0.5 rounded-full tracking-wide', badgeStyles[badge] ?? '']}>
+                    {t(`badge.${badge}`)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+
+      <!-- Fromages -->
+      <div class="panel-fromages grid grid-cols-1 md:grid-cols-2 gap-6">
+        {content.fromages.map((item, i) => (
+          <article class="fade-up flex flex-col gap-2 p-6 bg-surface-alt rounded-sm"
+                   style={`transition-delay: ${i * 0.05}s`}>
+            <div class="flex justify-between items-start gap-4">
+              <h3 class="font-display text-lg font-medium text-primary leading-snug flex-1">{item.name}</h3>
+              <span class="shrink-0 font-display text-xl text-secondary">{item.price} €</span>
+            </div>
+            {item.description && (
+              <p class="font-body text-sm text-muted leading-relaxed">{item.description}</p>
+            )}
+          </article>
+        ))}
+      </div>
+
+      <!-- Formules -->
+      <div class="panel-formules grid grid-cols-1 md:grid-cols-2 gap-6">
+        {content.formules.map((formula, i) => (
+          <article class="fade-up flex flex-col gap-4 p-8 bg-primary text-text-light rounded-sm"
+                   style={`transition-delay: ${i * 0.08}s`}>
+            <div class="flex justify-between items-start gap-4">
+              <h3 class="font-display text-2xl font-light">{formula.name}</h3>
+              <span class="font-display text-3xl text-secondary">{formula.price} €</span>
+            </div>
+            <ul class="flex flex-col gap-2">
+              {formula.includes.map(line => (
+                <li class="font-body text-sm text-muted flex items-center gap-2">
+                  <span class="text-secondary">—</span>
+                  {line}
+                </li>
+              ))}
+            </ul>
+            {formula.note && (
+              <p class="font-body text-xs text-muted/70 italic border-t border-white/10 pt-3 mt-auto">
+                {formula.note}
+              </p>
+            )}
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* CSS-only tabs : affichage des panels selon le radio checked */
+  .tab-panels > div { display: none; }
+
+  #tab-entrees:checked  ~ .tab-panels .panel-entrees,
+  #tab-plats:checked    ~ .tab-panels .panel-plats,
+  #tab-desserts:checked ~ .tab-panels .panel-desserts,
+  #tab-fromages:checked ~ .tab-panels .panel-fromages,
+  #tab-formules:checked ~ .tab-panels .panel-formules {
+    display: grid;
+  }
+
+  /* Style actif des labels */
+  #tab-entrees:checked  ~ * label[for="tab-entrees"],
+  #tab-plats:checked    ~ * label[for="tab-plats"],
+  #tab-desserts:checked ~ * label[for="tab-desserts"],
+  #tab-fromages:checked ~ * label[for="tab-fromages"],
+  #tab-formules:checked ~ * label[for="tab-formules"] {
+    color: var(--primary);
+    border-bottom-color: var(--secondary);
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 1rem 1.25rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover {
+    color: var(--primary);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  })();
+</script>

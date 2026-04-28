@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>L'Équipe — [NOM_RESTAURANT] | Rencontrez notre chef à [VILLE]</title>
+  <meta name="description" content="Rencontrez l'équipe de [NOM_RESTAURANT] à [VILLE]. [PRENOM_CHEF], chef de cuisine, et toute l'équipe passionnée qui compose votre expérience."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --color-primary: #1a1a18; --color-secondary: #b5874a;
+      --color-surface: #faf8f4; --color-surface-alt: #f2ede5;
+      --color-surface-dark: #111110;
+      --color-text: #1a1a18; --color-text-light: #f5f0e8;
+      --color-muted: #7a7060; --color-border: #e4ded3;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', system-ui, sans-serif;
+      --font-label: 'Jost', system-ui, sans-serif;
+      --radius: 12px; --radius-sm: 6px; --max-w: 1200px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--color-text); background: var(--color-surface); padding-bottom: 64px; }
+    @media (min-width: 768px) { body { padding-bottom: 0; } }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: .5; }
+    a { color: inherit; text-decoration: none; }
+
+    .mobile-reserve-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; display: flex; z-index: 100; }
+    @media (min-width: 768px) { .mobile-reserve-bar { display: none; } }
+    .mobile-reserve-bar a { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-label); font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-light); }
+    .mrb-call { background: var(--color-primary); } .mrb-resa { background: var(--color-secondary); }
+
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(250,248,244,.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border); }
+    .header-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; color: var(--color-primary); line-height: 1; }
+    .header-logo span { display: block; font-size: .6rem; font-family: var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: var(--color-muted); font-weight: 400; margin-top: 3px; }
+    .header-nav { display: none; gap: 32px; align-items: center; }
+    @media (min-width: 768px) { .header-nav { display: flex; } }
+    .header-nav a { font-family: var(--font-label); font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); transition: color .2s; position: relative; padding-bottom: 2px; }
+    .header-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--color-secondary); transition: width .25s; }
+    .header-nav a:hover { color: var(--color-primary); } .header-nav a:hover::after, .header-nav a.active::after { width: 100%; } .header-nav a.active { color: var(--color-primary); }
+    .header-actions { display: none; gap: 12px; align-items: center; }
+    @media (min-width: 768px) { .header-actions { display: flex; } }
+    .btn-outline { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 1.5px solid var(--color-primary); color: var(--color-primary); padding: 8px 16px; border-radius: var(--radius-sm); transition: all .2s; }
+    .btn-outline:hover { background: var(--color-primary); color: var(--color-text-light); }
+    .btn-primary { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: var(--color-secondary); color: #fff; padding: 8px 20px; border-radius: var(--radius-sm); transition: background .2s; }
+    .btn-primary:hover { background: #8f6730; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+    @media (min-width: 768px) { .hamburger { display: none; } }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--color-primary); border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 68px 0 0 0; background: var(--color-surface); z-index: 49; padding: 32px 24px; flex-direction: column; border-top: 1px solid var(--color-border); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: var(--font-label); font-size: .95rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--color-text); padding: 18px 0; border-bottom: 1px solid var(--color-border); }
+    .mobile-menu a:last-child { color: var(--color-secondary); border-bottom: none; }
+
+    /* Page Hero */
+    .page-hero { background: var(--color-surface-dark); padding: 80px 24px 96px; position: relative; overflow: hidden; }
+    .page-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 60px; background: var(--color-surface); clip-path: polygon(0 100%, 100% 0, 100% 100%); }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 70% 50%, rgba(181,135,74,.1) 0%, transparent 60%); }
+    .page-hero-inner { max-width: var(--max-w); margin: 0 auto; position: relative; z-index: 1; }
+    .page-hero-label { font-family: var(--font-label); font-size: .65rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 14px; }
+    .page-hero-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 600; color: var(--color-text-light); line-height: 1.05; margin-bottom: 16px; }
+    .page-hero-title em { color: var(--color-secondary); font-style: italic; }
+    .page-hero-sub { font-size: 1rem; color: rgba(245,240,232,.55); font-weight: 300; max-width: 480px; }
+
+    /* Section chef */
+    .section { padding: 96px 24px; }
+    .section-alt { background: var(--color-surface-alt); }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .chef-full { display: grid; grid-template-columns: 1fr; gap: 56px; align-items: center; }
+    @media (min-width: 900px) { .chef-full { grid-template-columns: 5fr 7fr; } }
+    .chef-photo-wrap { position: relative; }
+    .chef-photo {
+      aspect-ratio: 3/4; border-radius: var(--radius); overflow: hidden;
+      background: var(--color-surface-alt); position: relative;
+    }
+    .chef-photo-placeholder {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+    }
+    .chef-photo-placeholder svg { color: var(--color-border); }
+    .chef-photo-placeholder span { font-family: var(--font-label); font-size: .62rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-muted); }
+    /* Badge flottant */
+    .chef-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      width: 100px; height: 100px; border-radius: 50%;
+      background: var(--color-secondary); color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px; box-shadow: 0 8px 24px rgba(181,135,74,.35);
+    }
+    @media (max-width: 480px) { .chef-badge { display: none; } }
+    .chef-badge-num { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; line-height: 1; }
+    .chef-badge-text { font-family: var(--font-label); font-size: .5rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; text-align: center; }
+    .chef-content {}
+    .section-label { font-family: var(--font-label); font-size: .65rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: var(--color-primary); line-height: 1.15; margin-bottom: 16px; }
+    .section-title em { font-style: italic; }
+    .chef-quote { font-family: var(--font-display); font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-style: italic; font-weight: 400; color: var(--color-primary); line-height: 1.5; margin-bottom: 24px; padding: 24px 28px; background: var(--color-surface-alt); border-left: 3px solid var(--color-secondary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+    .chef-bio { font-size: .95rem; color: var(--color-muted); line-height: 1.85; font-weight: 300; margin-bottom: 28px; }
+    .chef-bio p { margin-bottom: 14px; }
+    .chef-bio p:last-child { margin-bottom: 0; }
+    .chef-name-block { display: flex; align-items: center; gap: 16px; padding-top: 20px; border-top: 1px solid var(--color-border); }
+    .chef-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-surface-alt); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; color: var(--color-muted); flex-shrink: 0; }
+    .chef-name { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--color-primary); }
+    .chef-role { font-family: var(--font-label); font-size: .62rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--color-secondary); }
+
+    /* Parcours timeline */
+    .parcours-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--color-primary); margin-bottom: 28px; }
+    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: var(--color-border); }
+    .timeline-item { display: flex; gap: 24px; padding-bottom: 28px; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot { width: 42px; height: 42px; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; z-index: 1; }
+    .timeline-dot.active { background: var(--color-secondary); border-color: var(--color-secondary); color: #fff; }
+    .timeline-dot svg { color: var(--color-secondary); }
+    .timeline-dot.active svg { color: #fff; }
+    .timeline-content { padding-top: 8px; }
+    .timeline-date { font-family: var(--font-label); font-size: .62rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 4px; }
+    .timeline-place { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--color-primary); margin-bottom: 4px; }
+    .timeline-role { font-size: .85rem; color: var(--color-muted); font-weight: 300; }
+
+    /* Équipe grid */
+    .equipe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (min-width: 640px) { .equipe-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1024px) { .equipe-grid { grid-template-columns: repeat(4, 1fr); } }
+    .equipe-card {
+      border: 1px solid var(--color-border); border-radius: var(--radius);
+      overflow: hidden; background: var(--color-surface);
+      transition: border-color .25s, transform .25s;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .5s ease, transform .5s ease, border-color .25s;
+    }
+    .equipe-card.visible { opacity: 1; transform: translateY(0); }
+    .equipe-card:hover { border-color: var(--color-secondary); transform: translateY(-3px); }
+    .equipe-photo {
+      aspect-ratio: 3/4; background: var(--color-surface-alt);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .equipe-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .equipe-photo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .equipe-photo-placeholder svg { color: var(--color-border); }
+    .equipe-photo-placeholder span { font-family: var(--font-label); font-size: .55rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--color-muted); }
+    .equipe-info { padding: 18px 20px; }
+    .equipe-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--color-primary); margin-bottom: 4px; }
+    .equipe-role { font-family: var(--font-label); font-size: .6rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 8px; }
+    .equipe-desc { font-size: .8rem; color: var(--color-muted); font-weight: 300; line-height: 1.6; }
+
+    /* Valeurs */
+    .valeurs-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media (min-width: 640px) { .valeurs-grid { grid-template-columns: repeat(3, 1fr); } }
+    .valeur-item { text-align: center; padding: 40px 24px; }
+    .valeur-num { font-family: var(--font-display); font-size: 4rem; font-weight: 400; color: var(--color-border); line-height: 1; margin-bottom: 12px; }
+    .valeur-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--color-primary); margin-bottom: 8px; }
+    .valeur-title em { font-style: italic; }
+    .valeur-text { font-size: .88rem; color: var(--color-muted); font-weight: 300; line-height: 1.7; }
+
+    /* CTA */
+    .cta-band { background: var(--color-primary); padding: 80px 24px; text-align: center; position: relative; overflow: hidden; }
+    .cta-band::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 50% 50%, rgba(181,135,74,.12) 0%, transparent 70%); }
+    .cta-band-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+    .cta-band-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: var(--color-text-light); line-height: 1.1; margin-bottom: 12px; }
+    .cta-band-title em { color: var(--color-secondary); font-style: italic; }
+    .cta-band-sub { font-size: .92rem; color: rgba(245,240,232,.5); font-weight: 300; margin-bottom: 28px; }
+
+    /* Footer */
+    .footer { background: var(--color-primary); border-top: 1px solid rgba(255,255,255,.06); padding: 64px 24px 40px; }
+    .footer-inner { max-width: var(--max-w); margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 40px; }
+    @media (min-width: 768px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; } }
+    .footer-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--color-text-light); margin-bottom: 4px; }
+    .footer-tagline { font-family: var(--font-label); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 20px; }
+    .footer-desc { font-size: .85rem; color: rgba(245,240,232,.4); font-weight: 300; line-height: 1.7; max-width: 280px; }
+    .footer-col-title { font-family: var(--font-label); font-size: .62rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 18px; }
+    .footer-col a { display: block; font-size: .85rem; color: rgba(245,240,232,.45); font-weight: 300; padding: 5px 0; transition: color .2s; }
+    .footer-col a:hover { color: var(--color-text-light); }
+    .footer-bottom { max-width: var(--max-w); margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 8px; }
+    @media (min-width: 640px) { .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer-copy { font-size: .78rem; color: rgba(245,240,232,.25); }
+    .footer-legal a { font-size: .78rem; color: rgba(245,240,232,.3); transition: color .2s; }
+    .footer-legal a:hover { color: var(--color-secondary); }
+
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-reserve-bar">
+    <a href="tel:[TELEPHONE]" class="mrb-call">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 0113.1 2.18 2 2 0 0115.12 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L19.18 9.9a16 16 0 006.82 6.82l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0124 16.92z"/></svg>
+      Appeler
+    </a>
+    <a href="reservation.html" class="mrb-resa">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Réserver
+    </a>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-logo">[NOM_RESTAURANT]<span>[TYPE_CUISINE] · [VILLE]</span></a>
+      <nav class="header-nav">
+        <a href="index.html">Accueil</a>
+        <a href="carte.html">La Carte</a>
+        <a href="equipe.html" class="active">L'Équipe</a>
+        <a href="reservation.html">Réservation</a>
+      </nav>
+      <div class="header-actions">
+        <a href="tel:[TELEPHONE]" class="btn-outline">[TELEPHONE_FORMATE]</a>
+        <a href="reservation.html" class="btn-primary">Réserver</a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="index.html" onclick="toggleMenu()">Accueil</a>
+      <a href="carte.html" onclick="toggleMenu()">La Carte</a>
+      <a href="equipe.html" onclick="toggleMenu()">L'Équipe</a>
+      <a href="reservation.html" onclick="toggleMenu()">Réserver →</a>
+    </nav>
+  </header>
+
+  <!-- ===== PAGE HERO ===== -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-hero-label">Les visages derrière les assiettes</p>
+      <h1 class="page-hero-title">Notre <em>équipe</em></h1>
+      <p class="page-hero-sub">Chaque plat est l'œuvre d'une équipe passionnée. Rencontrez les femmes et les hommes qui composent votre expérience.</p>
+    </div>
+  </div>
+
+  <!-- ===== LE CHEF ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="chef-full">
+        <div class="chef-photo-wrap">
+          <div class="chef-photo">
+            <div class="chef-photo-placeholder">
+              <svg width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Photo du chef</span>
+            </div>
+          </div>
+          <div class="chef-badge">
+            <span class="chef-badge-num">[X]</span>
+            <span class="chef-badge-text">ans de cuisine</span>
+          </div>
+        </div>
+        <div class="chef-content fade-up">
+          <p class="section-label">Chef de cuisine</p>
+          <h2 class="section-title">[Prénom] <em>[Nom]</em></h2>
+          <blockquote class="chef-quote">
+            « [Citation du chef sur sa philosophie culinaire — 1 à 2 phrases marquantes, inspirantes, personnelles.] »
+          </blockquote>
+          <div class="chef-bio">
+            <p>[Paragraphe 1 : origines, formation, premières expériences. Ex : Né à [ville], [Prénom] découvre les saveurs dès l'enfance dans la cuisine familiale. Après une formation à [école], il/elle intègre les brigades de [grandes maisons].]</p>
+            <p>[Paragraphe 2 : évolution, philosophie, ancrage local. Ex : Fort d'une expérience de X ans dans [villes / pays], [Prénom] pose ses bagages à [Ville] pour ouvrir [NOM_RESTAURANT]. Sa cuisine ? [Adjectifs] — ancrée dans les [terroirs / saisons / souvenirs], toujours en dialogue avec les producteurs de la région.]</p>
+          </div>
+          <div class="chef-name-block">
+            <div class="chef-avatar">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <p class="chef-name">[Prénom Nom Chef]</p>
+              <p class="chef-role">Chef de cuisine · [NOM_RESTAURANT]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PARCOURS TIMELINE ===== -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <p class="section-label fade-up">Son parcours</p>
+      <h2 class="section-title fade-up" style="margin-bottom:48px;">Les <em>étapes</em> qui l'ont forgé</h2>
+      <div class="timeline">
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="timeline-content">
+            <p class="timeline-date">[ANNEE]</p>
+            <p class="timeline-place">[Nom école / institution de formation]</p>
+            <p class="timeline-role">[Diplôme / formation obtenu — ville]</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="timeline-content">
+            <p class="timeline-date">[ANNEE] – [ANNEE]</p>
+            <p class="timeline-place">[Nom restaurant ou maison]</p>
+            <p class="timeline-role">[Poste occupé — ville, pays]</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="timeline-content">
+            <p class="timeline-date">[ANNEE] – [ANNEE]</p>
+            <p class="timeline-place">[Nom restaurant ou maison]</p>
+            <p class="timeline-role">[Poste occupé — ville, pays]</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot active">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="timeline-content">
+            <p class="timeline-date">[ANNEE] — aujourd'hui</p>
+            <p class="timeline-place">[NOM_RESTAURANT]</p>
+            <p class="timeline-role">Chef de cuisine & co-fondateur — [VILLE]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== L'ÉQUIPE ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="section-label fade-up">Toute la brigade</p>
+      <h2 class="section-title fade-up" style="margin-bottom:48px;">L'<em>équipe</em></h2>
+      <div class="equipe-grid">
+        <!-- Remplacer par les vrais membres de l'équipe -->
+        <div class="equipe-card">
+          <div class="equipe-photo">
+            <div class="equipe-photo-placeholder">
+              <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Photo</span>
+            </div>
+          </div>
+          <div class="equipe-info">
+            <p class="equipe-name">[Prénom Nom]</p>
+            <p class="equipe-role">Sous-chef</p>
+            <p class="equipe-desc">[Courte présentation — 1 phrase sur le parcours ou la spécialité]</p>
+          </div>
+        </div>
+        <div class="equipe-card">
+          <div class="equipe-photo">
+            <div class="equipe-photo-placeholder">
+              <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Photo</span>
+            </div>
+          </div>
+          <div class="equipe-info">
+            <p class="equipe-name">[Prénom Nom]</p>
+            <p class="equipe-role">Chef pâtissier·ère</p>
+            <p class="equipe-desc">[Courte présentation — spécialité sucrée, formation]</p>
+          </div>
+        </div>
+        <div class="equipe-card">
+          <div class="equipe-photo">
+            <div class="equipe-photo-placeholder">
+              <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Photo</span>
+            </div>
+          </div>
+          <div class="equipe-info">
+            <p class="equipe-name">[Prénom Nom]</p>
+            <p class="equipe-role">Sommelier·ère</p>
+            <p class="equipe-desc">[Courte présentation — régions de prédilection, philosophie des accords]</p>
+          </div>
+        </div>
+        <div class="equipe-card">
+          <div class="equipe-photo">
+            <div class="equipe-photo-placeholder">
+              <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Photo</span>
+            </div>
+          </div>
+          <div class="equipe-info">
+            <p class="equipe-name">[Prénom Nom]</p>
+            <p class="equipe-role">Maître d'hôtel</p>
+            <p class="equipe-desc">[Courte présentation — expérience en salle, attention au service]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VALEURS ===== -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <p class="section-label fade-up" style="text-align:center;">Ce en quoi nous croyons</p>
+      <h2 class="section-title fade-up" style="text-align:center;margin-bottom:56px;">Nos <em>valeurs</em></h2>
+      <div class="valeurs-grid">
+        <div class="valeur-item fade-up">
+          <p class="valeur-num">01</p>
+          <h3 class="valeur-title">L'<em>honnêteté</em> dans l'assiette</h3>
+          <p class="valeur-text">Des produits vrais, des recettes sincères. Pas de tromperie ni de promesses vides. Ce que vous voyez sur la carte, c'est ce que vous avez dans l'assiette.</p>
+        </div>
+        <div class="valeur-item fade-up">
+          <p class="valeur-num">02</p>
+          <h3 class="valeur-title">Le respect des <em>saisons</em></h3>
+          <p class="valeur-text">Nous travaillons avec les saisons, pas contre elles. La carte change, les saveurs évoluent, et chaque visite est une nouvelle découverte.</p>
+        </div>
+        <div class="valeur-item fade-up">
+          <p class="valeur-num">03</p>
+          <h3 class="valeur-title">L'attention à l'<em>autre</em></h3>
+          <p class="valeur-text">Chaque convive est unique. Notre équipe de salle veille à ce que chaque moment soit personnalisé, attentionné et mémorable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <div class="cta-band">
+    <div class="cta-band-inner fade-up">
+      <h2 class="cta-band-title">Venez nous <em>rencontrer</em></h2>
+      <p class="cta-band-sub">Réservez votre table et découvrez l'équipe en vrai. C'est encore mieux en personne.</p>
+      <a href="reservation.html" class="btn-primary">Réserver une table</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-logo">[NOM_RESTAURANT]</p>
+        <p class="footer-tagline">[TYPE_CUISINE] · [VILLE]</p>
+        <p class="footer-desc">Une cuisine sincère, des produits d'exception, un accueil chaleureux.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Navigation</p>
+        <a href="index.html">Accueil</a>
+        <a href="carte.html">La Carte</a>
+        <a href="equipe.html">L'Équipe</a>
+        <a href="reservation.html">Réservation</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Horaires</p>
+        <a href="#">Mar – Ven : 12h – 14h30</a>
+        <a href="#">Mar – Sam : 19h – 22h30</a>
+        <a href="#">Sam midi : 12h – 15h</a>
+        <a href="#">Lun & Dim : Fermé</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contact</p>
+        <a href="tel:[TELEPHONE]">[TELEPHONE_FORMATE]</a>
+        <a href="mailto:[EMAIL]">[EMAIL]</a>
+        <a href="#">[Adresse], [Ville]</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© [ANNEE] [NOM_RESTAURANT]</p>
+      <p class="footer-legal"><a href="mentions-legales.html">Mentions légales</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const m = document.getElementById('mobile-menu'), b = document.getElementById('hamburger-btn');
+      const open = m.classList.toggle('open');
+      b.setAttribute('aria-expanded', open);
+    }
+    document.addEventListener('click', function(e) {
+      const m = document.getElementById('mobile-menu'), b = document.getElementById('hamburger-btn');
+      if (m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) { m.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); }
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up, .equipe-card').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 8) * 0.07}s`;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+---
+import type { BrandContent } from '../../../utils/i18n';
+import { getTranslator, localePath } from '../../../utils/i18n';
+import { netlifyImg } from '../../../utils/image';
+import { siteConfig } from '../../../siteConfig';
+
+interface Props {
+  brand: BrandContent;
+  locale: string;
+}
+
+const { brand, locale } = Astro.props;
+const t = await getTranslator(locale);
+
+const menuHrefHero     = siteConfig.menu === 'pdf' && brand.menu_file ? brand.menu_file : localePath(locale, '/carte/');
+const menuExternalHero = siteConfig.menu === 'pdf' && !!brand.menu_file;
+---
+
+<section id="accueil" class="relative min-h-[90vh] flex items-center overflow-hidden bg-surface-dark">
+  <!-- Image de fond -->
+  {brand.hero_image && (
+    <img
+      src={netlifyImg(brand.hero_image, 1600)}
+      alt=""
+      role="presentation"
+      class="absolute inset-0 w-full h-full object-cover opacity-40"
+    />
+  )}
+
+  <!-- Dégradé -->
+  <div class="absolute inset-0 pointer-events-none hero-gradient"></div>
+
+  <div class="relative max-w-site mx-auto px-4 md:px-8 py-24 md:py-32">
+    <div class="max-w-3xl">
+      <p class="fade-up font-body text-xs text-secondary tracking-display uppercase mb-6">
+        {brand.hero_subtitle}
+      </p>
+
+      <h1
+        class="fade-up font-display text-5xl md:text-6xl lg:text-7xl font-light text-text-light leading-tight mb-8"
+        style="transition-delay: 0.1s"
+      >
+        {brand.hero_title}
+      </h1>
+
+      <div class="fade-up flex flex-wrap gap-4" style="transition-delay: 0.2s">
+        <a
+          href={localePath(locale, '/reservation/')}
+          class="font-body text-sm bg-secondary text-surface px-8 py-4 rounded-btn hover:bg-secondary/90 transition-colors"
+        >
+          {brand.hero_cta}
+        </a>
+        <a
+          href={menuHrefHero}
+          target={menuExternalHero ? '_blank' : undefined}
+          rel={menuExternalHero ? 'noopener noreferrer' : undefined}
+          class="font-body text-sm border border-text-light/30 text-text-light px-8 py-4 rounded-btn hover:border-text-light/60 transition-colors"
+        >
+          {t('home.menu_preview_cta')}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 24, 0.88) 0%,
+      rgba(26, 26, 24, 0.55) 55%,
+      rgba(181, 135, 74, 0.07) 100%
+    );
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var els = document.querySelectorAll('#accueil .fade-up');
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    els.forEach(function(el) { io.observe(el); });
+  })();
+</script>

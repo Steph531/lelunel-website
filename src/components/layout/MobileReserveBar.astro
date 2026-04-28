@@ -1,0 +1,57 @@
+---
+import { getTranslator, getBrand, localePath } from '../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await getTranslator(locale);
+const brand = await getBrand(locale);
+---
+
+<!-- Pills flottantes mobile (cachées sur md+) -->
+<div id="mobile-bar" class="fixed bottom-5 left-4 right-4 z-50 md:hidden flex justify-center gap-3">
+  {brand.phone && (
+    <a
+      href={`tel:${brand.phone}`}
+      class="flex-1 flex items-center justify-center gap-2 h-11 rounded-btn bg-primary/90 backdrop-blur-sm text-surface font-body text-sm shadow-lg hover:bg-primary transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/>
+      </svg>
+      {t('mobile_bar.call')}
+    </a>
+  )}
+  <a
+    href={localePath(locale, '/reservation/')}
+    class="flex-1 flex items-center justify-center gap-2 h-11 rounded-btn bg-secondary text-surface font-body text-sm shadow-lg hover:bg-secondary/90 transition-colors"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    {t('mobile_bar.book')}
+  </a>
+</div>
+
+<script is:inline>
+  var bar = document.getElementById('mobile-bar');
+  if (bar) {
+    // Repositionne la barre au-dessus du clavier virtuel (Chrome Android, Safari iOS)
+    // La barre reste toujours visible — pas de show/hide qui crée des états incohérents
+    if (window.visualViewport) {
+      function syncBar() {
+        var vv = window.visualViewport;
+        var bottomInset = window.innerHeight - vv.offsetTop - vv.height;
+        bar.style.bottom = (Math.max(0, bottomInset) + 20) + 'px';
+      }
+      window.visualViewport.addEventListener('resize', syncBar, { passive: true });
+      window.visualViewport.addEventListener('scroll', syncBar, { passive: true });
+    }
+  }
+</script>

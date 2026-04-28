@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Administration</title>
+
+  <!--
+    Netlify Identity Widget
+    IMPORTANT : ce script doit être dans <head>, avant le CMS.
+    Il gère l'interface de connexion/déconnexion.
+  -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <!--
+    Decap CMS — successeur open-source de Netlify CMS.
+    Supporte Git Gateway + Netlify Identity (auth par email).
+  -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!--
+    Gestion du redirect post-login :
+    Après connexion via Netlify Identity, le navigateur est renvoyé
+    vers "/" avec un token dans l'URL. Ce script redirige vers /admin/
+    pour que le CMS puisse finaliser l'authentification.
+  -->
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', function(user) {
+        if (!user) {
+          window.netlifyIdentity.on('login', function() {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

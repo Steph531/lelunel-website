@@ -1,0 +1,102 @@
+---
+import { getTranslator, getBrand } from '../../../utils/i18n';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await getTranslator(locale);
+const brand = await getBrand(locale);
+
+---
+
+<section class="bg-surface py-20 md:py-28">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+
+      <!-- Horaires -->
+      <div class="fade-up">
+        <h2 class="font-display text-3xl md:text-4xl font-light text-primary mb-8">
+          {t('home.hours_title')}
+          <span class="block w-12 h-px bg-secondary mt-4"></span>
+        </h2>
+
+        {brand.hours && brand.hours.length > 0 && (
+          <table class="w-full font-body text-sm">
+            <tbody>
+              {brand.hours.map((row: { days: string; lunch?: string; dinner?: string }) => (
+                <tr class="border-b border-rest">
+                  <td class="py-3 pr-6 font-medium text-primary w-1/2">{row.days}</td>
+                  <td class="py-3">
+                    {row.lunch && row.dinner ? (
+                      <span class="flex flex-col text-muted">
+                        <span class="whitespace-nowrap">{t('hours.lunch')} {row.lunch}</span>
+                        <span class="whitespace-nowrap">{t('hours.dinner')} {row.dinner}</span>
+                      </span>
+                    ) : row.lunch || row.dinner ? (
+                      <span class="text-muted">{row.lunch || row.dinner}</span>
+                    ) : (
+                      <span class="text-muted italic">{t('hours.closed')}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+      <!-- Contact & Accès -->
+      <div class="fade-up flex flex-col gap-8" style="transition-delay: 0.1s">
+        <h2 class="font-display text-3xl md:text-4xl font-light text-primary">
+          {t('home.contact_title')}
+          <span class="block w-12 h-px bg-secondary mt-4"></span>
+        </h2>
+
+        <div class="flex flex-col gap-6">
+          {brand.phone && (
+            <div class="flex flex-col gap-1">
+              <span class="font-body text-xs text-muted tracking-widest uppercase">{t('contact.phone')}</span>
+              <a href={`tel:${brand.phone}`}
+                 class="font-display text-xl text-primary hover:text-secondary transition-colors">
+                {brand.phone}
+              </a>
+            </div>
+          )}
+          {brand.email && (
+            <div class="flex flex-col gap-1">
+              <span class="font-body text-xs text-muted tracking-widest uppercase">{t('contact.email')}</span>
+              <a href={`mailto:${brand.email}`}
+                 class="font-body text-sm text-primary hover:text-secondary transition-colors">
+                {brand.email}
+              </a>
+            </div>
+          )}
+          {brand.street_address && (
+            <div class="flex flex-col gap-1">
+              <span class="font-body text-xs text-muted tracking-widest uppercase">{t('contact.address')}</span>
+              <address class="not-italic font-body text-sm text-primary leading-relaxed">
+                {brand.street_address}<br />
+                {brand.postal_code} {brand.city}
+              </address>
+            </div>
+          )}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

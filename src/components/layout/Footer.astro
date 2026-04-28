@@ -1,0 +1,170 @@
+---
+import { getTranslator, getBrand, localePath } from '../../utils/i18n';
+import { siteConfig } from '../../siteConfig';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await getTranslator(locale);
+const brand = await getBrand(locale);
+
+const menuHref     = siteConfig.menu === 'pdf' && brand.menu_file ? brand.menu_file : localePath(locale, '/carte/');
+const menuExternal = siteConfig.menu === 'pdf' && !!brand.menu_file;
+
+const navLinksAll = [
+  { href: localePath(locale, '/'),             label: t('nav.home'),        key: 'home',        external: false },
+  { href: menuHref,                             label: t('nav.menu'),        key: 'carte',       external: menuExternal },
+  { href: localePath(locale, '/histoire/'),    label: t('nav.team'),        key: 'histoire',    external: false },
+  { href: localePath(locale, '/reservation/'), label: t('nav.reservation'), key: 'reservation', external: false },
+];
+const navLinks = navLinksAll.filter(l => siteConfig.histoire || l.key !== 'histoire');
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-primary text-text-light font-body">
+  <div class="max-w-site mx-auto px-4 md:px-8 pt-16 pb-24 md:pb-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-12 divide-y divide-white/10 md:divide-y-0 mb-12">
+
+      <!-- Colonne 1 : identité (centrée sur mobile) -->
+      <div class="flex flex-col gap-4 items-center text-center md:items-start md:text-left pb-8 md:pb-0">
+        {brand.logo
+          ? <img src={brand.logo} alt={brand.site_name ?? ''} class="h-10 w-auto brightness-0 invert" />
+          : <span class="font-display text-2xl font-semibold text-text-light">{brand.site_name ?? 'Le Jardin'}</span>
+        }
+        {brand.tagline && (
+          <p class="text-xs text-muted tracking-tag uppercase">{brand.tagline}</p>
+        )}
+        {brand.restaurant_type && (
+          <p class="text-sm text-muted leading-relaxed">{brand.restaurant_type}</p>
+        )}
+
+        <!-- Réseaux sociaux -->
+        {(brand.instagram_url || brand.facebook_url || brand.youtube_url) && (
+          <div class="flex flex-row items-center gap-3 mt-2">
+            {brand.instagram_url && (
+              <a href={brand.instagram_url} target="_blank" rel="noopener noreferrer"
+                 aria-label="Instagram"
+                 class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-muted hover:text-text-light hover:border-text-light transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                </svg>
+              </a>
+            )}
+            {brand.facebook_url && (
+              <a href={brand.facebook_url} target="_blank" rel="noopener noreferrer"
+                 aria-label="Facebook"
+                 class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-muted hover:text-text-light hover:border-text-light transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+
+      <!-- Colonne 2 : navigation -->
+      <div class="flex flex-col gap-4 items-center text-center md:items-start md:text-left py-8 md:py-0">
+        <h3 class="font-display text-sm font-semibold text-text-light tracking-widest uppercase">
+          {t('footer.nav_title')}
+        </h3>
+        <nav class="flex flex-col gap-3" aria-label="Navigation pied de page">
+          {navLinks.map(link => (
+            <a
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class="text-sm text-muted hover:text-text-light transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Colonne 3 : horaires + contact -->
+      <div class="flex flex-col gap-4 items-center md:items-start py-8 md:py-0">
+        <h3 class="font-display text-sm font-semibold text-text-light tracking-widest uppercase">
+          {t('footer.hours_title')}
+        </h3>
+
+        {brand.hours && brand.hours.length > 0 && (
+          <table class="text-sm text-muted w-full">
+            <tbody>
+              {brand.hours.map((row: { days: string; lunch?: string; dinner?: string }) => (
+                <tr class="border-b border-white/5">
+                  <td class="py-1.5 pr-4 text-text-light/70">{row.days}</td>
+                  <td class="py-1.5 text-right">
+                    {row.lunch && row.dinner ? (
+                      <span class="flex flex-col items-end">
+                        <span class="whitespace-nowrap">{row.lunch}</span>
+                        <span class="whitespace-nowrap">{row.dinner}</span>
+                      </span>
+                    ) : (
+                      <span class="whitespace-nowrap">{row.lunch || row.dinner || t('hours.closed')}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {(brand.phone || brand.email || brand.street_address) && (
+          <div class="flex flex-col gap-2 mt-2">
+            {brand.phone && (
+              <a href={`tel:${brand.phone}`} class="flex items-center gap-2 text-sm text-muted hover:text-text-light transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 5.54 5.54l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                {brand.phone}
+              </a>
+            )}
+            {brand.email && (
+              <a href={`mailto:${brand.email}`} class="flex items-center gap-2 text-sm text-muted hover:text-text-light transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                {brand.email}
+              </a>
+            )}
+            {brand.street_address && (
+              <a
+                href={brand.maps_url ?? `https://maps.google.com/?q=${encodeURIComponent(`${brand.street_address} ${brand.postal_code ?? ''} ${brand.city ?? ''}`.trim())}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-start gap-2 text-sm text-muted hover:text-text-light transition-colors mt-1"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 mt-0.5">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <address class="not-italic">
+                  {brand.street_address}<br />
+                  {brand.postal_code} {brand.city}
+                </address>
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+
+    </div>
+
+    <!-- Bas de pied de page -->
+    <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+      <p>© {year} {brand.site_name ?? 'Le Jardin'} — {t('footer.rights')}</p>
+      <div class="flex gap-4">
+        <a href={localePath(locale, '/mentions-legales/')} class="hover:text-text-light transition-colors">
+          {t('footer.legal')}
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

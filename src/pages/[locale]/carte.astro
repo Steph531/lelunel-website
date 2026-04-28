@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import CarteSection from '../../components/sections/carte/CarteSection.astro';
+import CtaBand from '../../components/ui/CtaBand.astro';
+import { getPageContent } from '../../utils/i18n';
+import type { Locale } from '../../utils/i18n';
+import { siteConfig } from '../../siteConfig';
+
+export function getStaticPaths() {
+  const locales: Locale[] = siteConfig.multilanguage ? ['fr', 'en'] : ['fr'];
+  return locales.map(locale => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const content = await getPageContent('carte', locale);
+---
+
+<BaseLayout
+  title={content.meta_title}
+  description={content.meta_description}
+  lang={locale}
+  currentPath={Astro.url.pathname}
+>
+  <PageHero title={content.hero_title} subtitle={content.hero_subtitle} image="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80&auto=format&fit=crop" />
+  <CarteSection content={content} locale={locale} />
+  <CtaBand
+    title={content.cta_title}
+    buttonLabel={content.cta_button}
+    locale={locale}
+  />
+</BaseLayout>

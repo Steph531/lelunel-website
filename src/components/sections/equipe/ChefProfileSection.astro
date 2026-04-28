@@ -1,0 +1,56 @@
+---
+import type { HistoireContent } from '../../../utils/i18n';
+import { netlifyImg } from '../../../utils/image';
+
+interface Props {
+  content: HistoireContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="bg-surface py-20 md:py-28">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+
+      <!-- Photo -->
+      {content.chef_image && (
+        <div class="fade-up relative aspect-[3/4] overflow-hidden rounded-sm">
+          <img
+            src={netlifyImg(content.chef_image, 700)}
+            alt={content.chef_name}
+            class="w-full h-full object-cover"
+          />
+          <!-- Badge chef -->
+          <div class="absolute top-6 left-6">
+            <span class="font-body text-[0.65rem] tracking-label uppercase bg-secondary text-surface px-2 py-0.5 rounded-full">
+              {content.chef_role}
+            </span>
+          </div>
+        </div>
+      )}
+
+      <!-- Texte -->
+      <div class="fade-up flex flex-col gap-6" style="transition-delay: 0.1s">
+        <h2 class="font-display text-4xl md:text-5xl font-light text-primary leading-tight">
+          {content.chef_name}
+        </h2>
+        <div class="w-12 h-px bg-secondary"></div>
+        <p class="font-body text-sm text-muted leading-loose">
+          {content.chef_description}
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

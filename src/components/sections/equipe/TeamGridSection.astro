@@ -1,0 +1,55 @@
+---
+import type { HistoireContent } from '../../../utils/i18n';
+import { netlifyImg } from '../../../utils/image';
+
+interface Props {
+  content: HistoireContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="bg-surface py-20 md:py-28">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+
+    <h2 class="fade-up font-display text-3xl md:text-4xl font-light text-primary mb-12">
+      {content.team_title}
+      <span class="block w-12 h-px bg-secondary mt-4"></span>
+    </h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      {content.team.map((member, i) => (
+        <article class="fade-up flex flex-col gap-3" style={`transition-delay: ${i * 0.08}s`}>
+          <div class="aspect-square overflow-hidden rounded-sm bg-surface-alt">
+            {member.image
+              ? <img
+                  src={netlifyImg(member.image, 400)}
+                  alt={member.name}
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              : <div class="w-full h-full flex items-center justify-center text-4xl text-muted">
+                  👤
+                </div>
+            }
+          </div>
+          <div>
+            <p class="font-display text-lg font-medium text-primary">{member.name}</p>
+            <p class="font-body text-xs text-muted tracking-wide uppercase mt-0.5">{member.role}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

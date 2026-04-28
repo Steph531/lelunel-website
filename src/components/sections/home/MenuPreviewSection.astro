@@ -1,0 +1,86 @@
+---
+import type { HomeContent, BrandContent } from '../../../utils/i18n';
+import { getTranslator, localePath } from '../../../utils/i18n';
+import { siteConfig } from '../../../siteConfig';
+
+interface Props {
+  content: HomeContent;
+  locale: string;
+  brand: BrandContent;
+}
+
+const { content, locale, brand } = Astro.props;
+const t = await getTranslator(locale);
+
+const menuHrefPreview     = siteConfig.menu === 'pdf' && brand.menu_file ? brand.menu_file : localePath(locale, '/carte/');
+const menuExternalPreview = siteConfig.menu === 'pdf' && !!brand.menu_file;
+---
+
+<section class="bg-surface-alt py-24 md:py-32">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+      <h2 class="fade-up font-display text-3xl md:text-4xl font-light text-primary">
+        {t('home.menu_preview_title')}
+        <span class="block w-12 h-px bg-secondary mt-4"></span>
+      </h2>
+      <a
+        href={menuHrefPreview}
+        target={menuExternalPreview ? '_blank' : undefined}
+        rel={menuExternalPreview ? 'noopener noreferrer' : undefined}
+        class="fade-up font-body text-sm text-secondary hover:text-primary transition-colors flex items-center gap-2 shrink-0"
+      >
+        {t('home.menu_preview_cta')}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="max-w-xl mx-auto flex flex-col gap-16">
+
+      <!-- Plats principaux -->
+      <div class="fade-up">
+        <h3 class="font-display text-xs tracking-label uppercase text-muted mb-6 pb-2 border-b border-rest">
+          Plats
+        </h3>
+        <ul class="flex flex-col gap-6">
+          {content.menu_preview_mains.map(item => (
+            <li class="flex items-baseline gap-3">
+              <span class="font-body text-base text-primary">{item.name}</span>
+              <span class="flex-1 border-b border-dashed border-rest self-end mb-1"></span>
+              <span class="shrink-0 font-display text-lg text-secondary">{item.price}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Formules -->
+      {content.menu_preview_formulas?.length > 0 && (
+        <div class="fade-up" style="transition-delay: 0.1s">
+          <h3 class="font-display text-xs tracking-label uppercase text-muted mb-6 pb-2 border-b border-rest">
+            Formules
+          </h3>
+          <ul class="flex flex-col gap-6">
+            {content.menu_preview_formulas.map(item => (
+              <li class="flex items-baseline gap-3">
+                <span class="font-body text-base text-primary font-medium">{item.name}</span>
+                <span class="flex-1 border-b border-dashed border-rest self-end mb-1"></span>
+                <span class="shrink-0 font-display text-xl text-secondary">{item.price}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

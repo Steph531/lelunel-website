@@ -1,0 +1,86 @@
+{
+  "fr": {
+    "meta_title": "La Carte — Le Jardin",
+    "meta_description": "Découvrez notre carte : entrées, plats, desserts, fromages et formules. Cuisine française de saison.",
+    "hero_title": "La Carte",
+    "hero_subtitle": "Produits de saison, renouvelés chaque mois",
+    "entrees": [
+      { "name": "Velouté de butternut, noisettes torréfiées, huile de truffe", "description": "Servi chaud ou froid selon la saison", "price": "12", "badges": ["maison"] },
+      { "name": "Tartare de bœuf façon maison", "description": "Câpres, cornichons, jaune d'œuf, frites maison", "price": "16", "badges": ["signature"] },
+      { "name": "Burrata, tomates anciennes, basilic, huile d'olive", "description": "Tomates de notre producteur en Provence", "price": "14", "badges": ["vege"] },
+      { "name": "Pressé de foie gras mi-cuit, chutney de figues", "description": "Pain brioché toasté maison", "price": "18", "badges": ["signature"] },
+      { "name": "Carpaccio de Saint-Jacques, citron caviar, aneth", "description": "Saint-Jacques de plongée de Bretagne", "price": "17", "badges": ["new"] },
+      { "name": "Soupe à l'oignon gratinée, croûtons, comté 24 mois", "description": "Recette traditionnelle revisitée", "price": "11", "badges": ["maison"] }
+    ],
+    "plats": [
+      { "name": "Filet de dorade royale, légumes rôtis, sauce vierge aux herbes", "description": "Dorade de ligne, Méditerranée", "price": "26", "badges": ["new"] },
+      { "name": "Magret de canard des Landes, polenta crémeuse, jus corsé aux cerises", "description": "Label Rouge · Cuisson rosée", "price": "28", "badges": ["signature"] },
+      { "name": "Risotto aux champignons des bois, parmesan 24 mois, truffe noire", "description": "Champignons sauvages de saison", "price": "22", "badges": ["vege"] },
+      { "name": "Pavé de bœuf charolais 180g, sauce béarnaise, pommes grenaille", "description": "Maturation 30 jours · Cuisson au choix", "price": "32" },
+      { "name": "Parmentier de canard confit, écrasé de pommes de terre à l'huile", "description": "Canard fermier du Périgord", "price": "24", "badges": ["maison"] },
+      { "name": "Cabillaud rôti, purée de céleri-rave, émulsion de beurre blanc", "description": "MSC · Pêche durable", "price": "25" }
+    ],
+    "desserts": [
+      { "name": "Tarte fine aux pommes, crème fraîche épaisse, caramel au beurre salé", "description": "Pommes de notre verger normand", "price": "9", "badges": ["maison"] },
+      { "name": "Fondant au chocolat Valrhona 70%, glace vanille de Madagascar", "description": "Coulant, servi chaud", "price": "10", "badges": ["signature"] },
+      { "name": "Crème brûlée à la vanille de Tahiti", "description": "Recette classique, vanille grand cru", "price": "8" },
+      { "name": "Paris-Brest revisité, praliné noisette, crème légère", "description": "Pâtisserie maison", "price": "10", "badges": ["maison"] },
+      { "name": "Île flottante, crème anglaise, pralin", "description": "Recette de grand-mère", "price": "8", "badges": ["vege"] },
+      { "name": "Assiette de mignardises et petits fours", "description": "Pour 2 personnes", "price": "12" }
+    ],
+    "fromages": [
+      { "name": "Plateau de fromages affinés, 5 pièces", "description": "Sélection de notre fromager · Servi avec pain de campagne et confiture de cerises", "price": "14" },
+      { "name": "Fromage en solo, 3 pièces au choix", "description": "Camembert normand AOP · Comté 18 mois · Roquefort Papillon · Chèvre frais · Brie de Meaux", "price": "10" }
+    ],
+    "formules": [
+      { "name": "Menu du Midi", "price": "28", "includes": ["Entrée + Plat", "Plat + Dessert"], "note": "Servi du mardi au vendredi uniquement · Midi uniquement" },
+      { "name": "Menu Découverte", "price": "38", "includes": ["Entrée + Plat + Dessert"], "note": "Disponible midi et soir" },
+      { "name": "Menu Dégustation", "price": "58", "includes": ["5 services au choix du chef", "Accord mets-vins en option +30€"], "note": "Sur réservation · Toute la table" },
+      { "name": "À la Carte", "price": "~45", "includes": ["Liberté totale de composition"], "note": "Prix moyen sans les boissons" }
+    ],
+    "cta_title": "Envie de venir nous rendre visite ?",
+    "cta_button": "Réserver une table"
+  },
+  "en": {
+    "meta_title": "Menu — Le Jardin",
+    "meta_description": "Discover our menu: starters, mains, desserts, cheese and set menus. Seasonal French cuisine.",
+    "hero_title": "The Menu",
+    "hero_subtitle": "Seasonal produce, renewed every month",
+    "entrees": [
+      { "name": "Butternut squash velouté, toasted hazelnuts, truffle oil", "description": "Served hot or cold depending on the season", "price": "12", "badges": ["maison"] },
+      { "name": "Beef tartare, house style", "description": "Capers, pickles, egg yolk, homemade fries", "price": "16", "badges": ["signature"] },
+      { "name": "Burrata, heirloom tomatoes, basil, olive oil", "description": "Tomatoes from our Provence producer", "price": "14", "badges": ["vege"] },
+      { "name": "Semi-cooked foie gras terrine, fig chutney", "description": "Homemade toasted brioche", "price": "18", "badges": ["signature"] },
+      { "name": "Scallop carpaccio, citrus caviar, dill", "description": "Hand-dived scallops from Brittany", "price": "17", "badges": ["new"] },
+      { "name": "French onion soup, croutons, aged Comté", "description": "Traditional recipe, revisited", "price": "11", "badges": ["maison"] }
+    ],
+    "plats": [
+      { "name": "Sea bream fillet, roasted vegetables, herb sauce vierge", "description": "Line-caught, Mediterranean", "price": "26", "badges": ["new"] },
+      { "name": "Duck breast from the Landes, creamy polenta, cherry jus", "description": "Label Rouge · Served pink", "price": "28", "badges": ["signature"] },
+      { "name": "Wild mushroom risotto, aged Parmesan, black truffle", "description": "Seasonal wild mushrooms", "price": "22", "badges": ["vege"] },
+      { "name": "Charolais beef steak 180g, béarnaise, baby potatoes", "description": "30-day dry aged · Cooked to your liking", "price": "32" },
+      { "name": "Duck confit parmentier, olive oil mashed potatoes", "description": "Free-range duck from Périgord", "price": "24", "badges": ["maison"] },
+      { "name": "Roasted cod, celeriac purée, beurre blanc emulsion", "description": "MSC certified · Sustainable fishing", "price": "25" }
+    ],
+    "desserts": [
+      { "name": "Thin apple tart, thick crème fraîche, salted butter caramel", "description": "Apples from our Norman orchard", "price": "9", "badges": ["maison"] },
+      { "name": "Valrhona 70% chocolate fondant, Madagascar vanilla ice cream", "description": "Served warm with a molten centre", "price": "10", "badges": ["signature"] },
+      { "name": "Classic crème brûlée, Tahitian vanilla", "description": "Traditional recipe, grand cru vanilla", "price": "8" },
+      { "name": "Paris-Brest, hazelnut praline, light cream", "description": "Homemade pastry", "price": "10", "badges": ["maison"] },
+      { "name": "Floating island, crème anglaise, pralin", "description": "Grandmother's recipe", "price": "8", "badges": ["vege"] },
+      { "name": "Plate of petits fours and mignardises", "description": "For 2 people", "price": "12" }
+    ],
+    "fromages": [
+      { "name": "Cheese board, 5 pieces", "description": "Selection by our cheesemonger · Served with sourdough and cherry jam", "price": "14" },
+      { "name": "Single cheese, 3 pieces of your choice", "description": "Norman Camembert AOP · 18-month Comté · Roquefort Papillon · Fresh goat · Brie de Meaux", "price": "10" }
+    ],
+    "formules": [
+      { "name": "Lunch menu", "price": "28", "includes": ["Starter + Main", "Main + Dessert"], "note": "Tuesday to Friday only · Lunch only" },
+      { "name": "Discovery menu", "price": "38", "includes": ["Starter + Main + Dessert"], "note": "Available lunch and dinner" },
+      { "name": "Tasting menu", "price": "58", "includes": ["5 courses, chef's choice", "Wine pairing available +€30"], "note": "By reservation · Whole table only" },
+      { "name": "À la carte", "price": "~45", "includes": ["Full freedom to compose your meal"], "note": "Average price without drinks" }
+    ],
+    "cta_title": "Want to come and visit us?",
+    "cta_button": "Book a table"
+  }
+}

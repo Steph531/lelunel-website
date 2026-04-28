@@ -1,0 +1,48 @@
+---
+import type { HistoireContent } from '../../../utils/i18n';
+import { Shield, Leaf, Heart } from 'lucide-astro';
+
+interface Props {
+  content: HistoireContent;
+}
+
+const { content } = Astro.props;
+
+const iconMap: Record<string, any> = {
+  shield: Shield,
+  leaf: Leaf,
+  heart: Heart,
+};
+---
+
+<section class="bg-primary py-20 md:py-28">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+
+    <h2 class="fade-up font-display text-3xl md:text-4xl font-light text-text-light mb-12">
+      {content.values_title}
+      <span class="block w-12 h-px bg-secondary mt-4"></span>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      {content.values.map((value, i) => (
+        <div class="fade-up flex flex-col gap-4 border-l-2 border-secondary pl-6"
+             style={`transition-delay: ${i * 0.1}s`}>
+          {(() => { const Icon = iconMap[value.icon]; return Icon ? <Icon size={32} stroke-width={1.5} class="text-secondary" /> : null; })()}
+          <h3 class="font-display text-2xl font-light text-text-light">{value.title}</h3>
+          <p class="font-body text-sm text-muted leading-relaxed">{value.description}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

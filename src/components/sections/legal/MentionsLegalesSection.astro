@@ -1,0 +1,212 @@
+---
+import type { BrandContent } from '../../../utils/i18n';
+
+interface Dev {
+  name: string;
+  legal_form: string;
+  siret: string;
+  address: string;
+  email: string;
+}
+
+interface Props {
+  content: Record<string, string>;
+  brand: BrandContent;
+  dev: Dev;
+}
+
+const { content, brand, dev } = Astro.props;
+
+function s(key: string): string {
+  return content[key] ?? '';
+}
+
+function injectSiteName(text: string): string {
+  return text.replace(/{site_name}/g, brand.site_name ?? '');
+}
+
+const fullAddress = [brand.street_address, `${brand.postal_code ?? ''} ${brand.city ?? ''}`.trim()]
+  .filter(Boolean)
+  .join(', ');
+---
+
+<section class="py-16 md:py-24 bg-surface">
+  <div class="max-w-[900px] mx-auto px-4 md:px-8">
+
+    <!-- Date de mise à jour -->
+    <p class="font-body text-xs text-muted tracking-label uppercase mb-10">
+      {s('last_update')}
+    </p>
+
+    <!-- Sommaire -->
+    <nav
+      aria-label={s('toc_title')}
+      class="bg-surface-alt border border-border-rest border-l-4 border-l-secondary rounded-sm p-6 mb-16"
+    >
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-muted mb-4">
+        {s('toc_title')}
+      </p>
+      <ol class="list-decimal list-inside flex flex-col gap-2 pl-1">
+        <li class="text-[0.95rem]"><a href="#editeur"       class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_editeur')}</a></li>
+        <li class="text-[0.95rem]"><a href="#hebergement"   class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_hebergement')}</a></li>
+        <li class="text-[0.95rem]"><a href="#propriete"     class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_propriete')}</a></li>
+        <li class="text-[0.95rem]"><a href="#donnees"       class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_donnees')}</a></li>
+        <li class="text-[0.95rem]"><a href="#cookies"       class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_cookies')}</a></li>
+        <li class="text-[0.95rem]"><a href="#responsabilite" class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_responsabilite')}</a></li>
+        <li class="text-[0.95rem]"><a href="#contact"       class="text-secondary font-semibold hover:opacity-75 transition-opacity">{s('toc_contact')}</a></li>
+      </ol>
+    </nav>
+
+    <!-- Article 1 — Éditeur -->
+    <article id="editeur" class="mb-14 pb-14 border-b border-border-rest scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art1_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art1_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-4">{s('art1_intro')}</p>
+      <div class="bg-surface-alt border border-border-rest rounded-sm p-5 mb-4">
+        <table class="w-full border-collapse">
+          {[
+            [s('dev_label_name'),       dev.name],
+            [s('dev_label_legal_form'), dev.legal_form],
+            [s('dev_label_siret'),      dev.siret],
+            [s('dev_label_address'),    dev.address],
+            [s('dev_label_email'),      dev.email],
+            [s('dev_label_director'),   dev.name],
+          ].map(([label, value], i, arr) => (
+            <tr class={i < arr.length - 1 ? 'border-b border-border-rest' : ''}>
+              <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{label}</td>
+              <td class="font-body text-[0.93rem] text-primary py-2 align-top">
+                {label === s('dev_label_email')
+                  ? <a href={`mailto:${value}`} class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">{value}</a>
+                  : value}
+              </td>
+            </tr>
+          ))}
+        </table>
+      </div>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed" set:html={injectSiteName(s('art1_note'))} />
+    </article>
+
+    <!-- Article 2 — Hébergement -->
+    <article id="hebergement" class="mb-14 pb-14 border-b border-border-rest scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art2_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art2_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-4">{s('art2_intro')}</p>
+      <div class="bg-surface-alt border border-border-rest rounded-sm p-5">
+        <table class="w-full border-collapse">
+          <tr class="border-b border-border-rest">
+            <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{s('host_label')}</td>
+            <td class="font-body text-[0.93rem] text-primary py-2 align-top">{s('host_name')}</td>
+          </tr>
+          <tr class="border-b border-border-rest">
+            <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{s('host_label_address')}</td>
+            <td class="font-body text-[0.93rem] text-primary py-2 align-top">{s('host_address')}</td>
+          </tr>
+          <tr>
+            <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{s('host_label_website')}</td>
+            <td class="font-body text-[0.93rem] text-primary py-2 align-top">
+              <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">www.netlify.com</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </article>
+
+    <!-- Article 3 — Propriété intellectuelle -->
+    <article id="propriete" class="mb-14 pb-14 border-b border-border-rest scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art3_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art3_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3" set:html={injectSiteName(s('art3_text1'))} />
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed" set:html={s('art3_text2')} />
+    </article>
+
+    <!-- Article 4 — RGPD -->
+    <article id="donnees" class="mb-14 pb-14 border-b border-border-rest scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art4_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art4_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3" set:html={injectSiteName(s('art4_text1'))} />
+      {brand.email && (
+        <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">
+          <strong>{s('art4_label_responsible')}</strong>{' '}
+          {brand.site_name} —{' '}
+          <a href={`mailto:${brand.email}`} class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">{brand.email}</a>
+        </p>
+      )}
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">
+        <strong>{s('art4_label_data')}</strong> {s('art4_data')}
+      </p>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">
+        <strong>{s('art4_label_purpose')}</strong> {s('art4_purpose')}
+      </p>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">
+        <strong>{s('art4_label_duration')}</strong> {s('art4_duration')}
+      </p>
+      {brand.email && (
+        <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">
+          <strong>{s('art4_label_rights')}</strong> {s('art4_rights')}
+          {' '}{s('art4_rights_contact')}{' '}
+          <a href={`mailto:${brand.email}`} class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">{brand.email}</a>.
+        </p>
+      )}
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed">
+        {s('art4_cnil')}{' '}
+        <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">www.cnil.fr</a>.
+      </p>
+    </article>
+
+    <!-- Article 5 — Cookies -->
+    <article id="cookies" class="mb-14 pb-14 border-b border-border-rest scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art5_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art5_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">{s('art5_text1')}</p>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">{s('art5_text2')}</p>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed">{s('art5_text3')}</p>
+    </article>
+
+    <!-- Article 6 — Responsabilité -->
+    <article id="responsabilite" class="mb-14 pb-14 border-b border-border-rest scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art6_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art6_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3" set:html={injectSiteName(s('art6_text1'))} />
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-3">{s('art6_text2')}</p>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed" set:html={injectSiteName(s('art6_text3'))} />
+    </article>
+
+    <!-- Article 7 — Contact -->
+    <article id="contact" class="scroll-mt-20">
+      <p class="font-body text-xs font-semibold tracking-label uppercase text-secondary mb-1">{s('art7_num')}</p>
+      <h2 class="font-display text-2xl font-semibold text-primary mb-6 leading-snug">{s('art7_title')}</h2>
+      <p class="font-body text-[0.95rem] text-primary leading-relaxed mb-4">{s('art7_intro')}</p>
+      <div class="bg-surface-alt border border-border-rest rounded-sm p-5 mb-4">
+        <table class="w-full border-collapse">
+          {brand.email && (
+            <tr class="border-b border-border-rest">
+              <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{s('art7_label_email')}</td>
+              <td class="font-body text-[0.93rem] text-primary py-2 align-top">
+                <a href={`mailto:${brand.email}`} class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">{brand.email}</a>
+              </td>
+            </tr>
+          )}
+          {brand.phone && (
+            <tr class="border-b border-border-rest">
+              <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{s('art7_label_phone')}</td>
+              <td class="font-body text-[0.93rem] text-primary py-2 align-top">
+                <a href={`tel:${brand.phone}`} class="text-secondary underline underline-offset-2 hover:opacity-75 transition-opacity">{brand.phone}</a>
+              </td>
+            </tr>
+          )}
+          {fullAddress && (
+            <tr>
+              <td class="font-body text-[0.78rem] font-semibold tracking-tag uppercase text-muted py-2 pr-4 w-[40%] align-top">{s('art7_label_mail')}</td>
+              <td class="font-body text-[0.93rem] text-primary py-2 align-top">
+                {brand.site_name && <span class="block">{brand.site_name}</span>}
+                {fullAddress}
+              </td>
+            </tr>
+          )}
+        </table>
+      </div>
+      <p class="font-body text-[0.88rem] text-muted italic">{s('art7_commitment')}</p>
+    </article>
+
+  </div>
+</section>

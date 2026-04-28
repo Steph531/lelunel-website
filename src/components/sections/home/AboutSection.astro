@@ -1,0 +1,67 @@
+---
+import type { BrandContent } from '../../../utils/i18n';
+import { getTranslator, localePath } from '../../../utils/i18n';
+import { netlifyImg } from '../../../utils/image';
+import { siteConfig } from '../../../siteConfig';
+
+interface Props {
+  brand: BrandContent;
+  locale: string;
+}
+
+const { brand, locale } = Astro.props;
+const t = await getTranslator(locale);
+---
+
+<section class="bg-primary py-20 md:py-28">
+  <div class="max-w-site mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+
+      <!-- Photo -->
+      {brand.about_image && (
+        <div class="fade-up relative aspect-[4/5] overflow-hidden rounded-sm">
+          <img
+            src={netlifyImg(brand.about_image, 700)}
+            alt={brand.site_name ?? ''}
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      )}
+
+      <!-- Texte -->
+      <div class="fade-up flex flex-col gap-6" style="transition-delay: 0.1s">
+        <p class="font-body text-xs text-secondary tracking-subtitle uppercase">
+          {t('home.about_label')}
+        </p>
+        <h2 class="font-display text-2xl md:text-3xl font-light text-text-light leading-snug">
+          {brand.about_tagline}
+        </h2>
+        <div class="w-12 h-px bg-secondary"></div>
+        <p class="font-body text-sm text-muted leading-relaxed">
+          {brand.about_description}
+        </p>
+        {siteConfig.histoire && (
+          <a
+            href={localePath(locale, '/histoire/')}
+            class="font-body text-sm text-secondary hover:text-text-light transition-colors flex items-center gap-2 w-fit"
+          >
+            {t('home.about_cta')}
+            <span aria-hidden="true">→</span>
+          </a>
+        )}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const els = document.querySelectorAll('section .fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mentions légales — [NOM_RESTAURANT]</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --color-primary:        #1a1a18;
+      --color-secondary:      #b5874a;
+      --color-surface:        #faf8f4;
+      --color-surface-alt:    #f2ede5;
+      --color-surface-dark:   #111110;
+      --color-text:           #1a1a18;
+      --color-text-light:     #f5f0e8;
+      --color-muted:          #7a7060;
+      --color-border:         #e4ded3;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Jost', system-ui, sans-serif;
+      --font-label:   'Jost', system-ui, sans-serif;
+      --radius: 12px; --radius-sm: 6px; --max-w: 1200px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--color-text); background: var(--color-surface); padding-bottom: 64px; }
+    @media (min-width: 768px) { body { padding-bottom: 0; } }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: .5; }
+    a { color: var(--color-secondary); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { opacity: .75; }
+
+    /* Mobile Reserve Bar */
+    .mobile-reserve-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; display: flex; z-index: 100; }
+    @media (min-width: 768px) { .mobile-reserve-bar { display: none; } }
+    .mobile-reserve-bar a { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-label); font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-light); text-decoration: none; }
+    .mrb-call { background: var(--color-primary); } .mrb-resa { background: var(--color-secondary); }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(250,248,244,.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border); }
+    .header-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; color: var(--color-primary); line-height: 1; text-decoration: none; }
+    .header-logo span { display: block; font-size: .6rem; font-family: var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: var(--color-muted); font-weight: 400; margin-top: 3px; }
+    .header-nav { display: none; gap: 32px; align-items: center; }
+    @media (min-width: 768px) { .header-nav { display: flex; } }
+    .header-nav a { font-family: var(--font-label); font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); transition: color .2s; position: relative; padding-bottom: 2px; text-decoration: none; }
+    .header-nav a:hover { color: var(--color-primary); }
+    .header-actions { display: none; gap: 12px; align-items: center; }
+    @media (min-width: 768px) { .header-actions { display: flex; } }
+    .btn-outline { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 1.5px solid var(--color-primary); color: var(--color-primary); padding: 8px 16px; border-radius: var(--radius-sm); transition: all .2s; text-decoration: none; }
+    .btn-outline:hover { background: var(--color-primary); color: var(--color-text-light); opacity: 1; }
+    .btn-primary { font-family: var(--font-label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: var(--color-secondary); color: #fff; padding: 8px 20px; border-radius: var(--radius-sm); transition: background .2s; text-decoration: none; }
+    .btn-primary:hover { background: #8f6730; opacity: 1; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+    @media (min-width: 768px) { .hamburger { display: none; } }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--color-primary); border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 68px 0 0 0; background: var(--color-surface); z-index: 49; padding: 32px 24px; flex-direction: column; border-top: 1px solid var(--color-border); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: var(--font-label); font-size: .95rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--color-text); padding: 18px 0; border-bottom: 1px solid var(--color-border); text-decoration: none; }
+    .mobile-menu a:last-child { color: var(--color-secondary); border-bottom: none; }
+
+    /* Page header */
+    .page-header { background: var(--color-primary); padding: 56px 24px 72px; position: relative; overflow: hidden; }
+    .page-header::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 50px; background: var(--color-surface); clip-path: polygon(0 100%, 100% 0, 100% 100%); }
+    .page-header-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+    .page-header-label { font-family: var(--font-label); font-size: .65rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 12px; }
+    .page-header-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; color: var(--color-text-light); line-height: 1.1; margin-bottom: 12px; }
+    .page-header-date { font-family: var(--font-label); font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,240,232,.4); }
+
+    /* Corps */
+    .mentions-body { padding: 72px 24px 80px; }
+    @media (min-width: 768px) { .mentions-body { padding: 80px 40px; } }
+    .mentions-inner { max-width: 900px; margin: 0 auto; }
+
+    /* Sommaire */
+    .sommaire { background: var(--color-surface-alt); border: 1px solid var(--color-border); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 24px 28px; margin-bottom: 56px; }
+    .sommaire-title { font-family: var(--font-label); font-size: .65rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 14px; }
+    .sommaire ol { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+    .sommaire li { font-size: .92rem; }
+    .sommaire a { color: var(--color-primary); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Sections */
+    .ml-section { margin-bottom: 52px; padding-bottom: 52px; border-bottom: 1px solid var(--color-border); }
+    .ml-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .ml-section-num { font-family: var(--font-label); font-size: .6rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: 6px; }
+    .ml-section h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; color: var(--color-primary); margin-bottom: 20px; line-height: 1.2; }
+    .ml-section p { font-size: .95rem; color: var(--color-text); margin-bottom: 14px; line-height: 1.85; font-weight: 300; }
+    .ml-section p:last-child { margin-bottom: 0; }
+    .ml-info-block { background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 20px 24px; margin-bottom: 20px; }
+    .ml-info-block table { width: 100%; border-collapse: collapse; }
+    .ml-info-block td { padding: 8px 0; font-size: .9rem; vertical-align: top; }
+    .ml-info-block td:first-child { font-weight: 500; color: var(--color-muted); width: 40%; font-family: var(--font-label); font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; padding-right: 16px; }
+    .ml-info-block tr { border-bottom: 1px solid var(--color-border); }
+    .ml-info-block tr:last-child { border-bottom: none; }
+
+    /* Footer */
+    .footer { background: var(--color-primary); padding: 40px 24px; }
+    .footer-inner { max-width: var(--max-w); margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    @media (min-width: 640px) { .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer-logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--color-text-light); }
+    .footer-links-row { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links-row a { font-size: .82rem; color: rgba(245,240,232,.4); text-decoration: none; transition: color .2s; }
+    .footer-links-row a:hover { color: var(--color-secondary); opacity: 1; }
+    .footer-copy { font-size: .78rem; color: rgba(245,240,232,.25); }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-reserve-bar">
+    <a href="tel:[TELEPHONE]" class="mrb-call">Appeler</a>
+    <a href="reservation.html" class="mrb-resa">Réserver</a>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-logo">[NOM_RESTAURANT]<span>[TYPE_CUISINE] · [VILLE]</span></a>
+      <nav class="header-nav">
+        <a href="index.html">Accueil</a>
+        <a href="carte.html">La Carte</a>
+        <a href="equipe.html">L'Équipe</a>
+        <a href="reservation.html">Réservation</a>
+      </nav>
+      <div class="header-actions">
+        <a href="tel:[TELEPHONE]" class="btn-outline">[TELEPHONE_FORMATE]</a>
+        <a href="reservation.html" class="btn-primary">Réserver</a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="index.html" onclick="toggleMenu()">Accueil</a>
+      <a href="carte.html" onclick="toggleMenu()">La Carte</a>
+      <a href="equipe.html" onclick="toggleMenu()">L'Équipe</a>
+      <a href="reservation.html" onclick="toggleMenu()">Réserver →</a>
+    </nav>
+  </header>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-header-label">Informations légales</p>
+      <h1 class="page-header-title">Mentions légales</h1>
+      <p class="page-header-date">Dernière mise à jour : [DATE_MISE_A_JOUR]</p>
+    </div>
+  </div>
+
+  <!-- ===== CONTENU ===== -->
+  <main class="mentions-body">
+    <div class="mentions-inner">
+
+      <!-- Sommaire -->
+      <nav class="sommaire" aria-label="Sommaire">
+        <p class="sommaire-title">Sommaire</p>
+        <ol>
+          <li><a href="#editeur">Éditeur du site</a></li>
+          <li><a href="#hebergement">Hébergement</a></li>
+          <li><a href="#propriete">Propriété intellectuelle</a></li>
+          <li><a href="#donnees">Données personnelles & RGPD</a></li>
+          <li><a href="#cookies">Cookies</a></li>
+          <li><a href="#responsabilite">Limitation de responsabilité</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1. ÉDITEUR -->
+      <section class="ml-section" id="editeur">
+        <p class="ml-section-num">Article 1</p>
+        <h2>Éditeur du site</h2>
+        <p>Le présent site est édité par :</p>
+        <div class="ml-info-block">
+          <table>
+            <tr><td>Raison sociale</td><td><strong>[NOM_RESTAURANT]</strong></td></tr>
+            <tr><td>Forme juridique</td><td>[FORME_JURIDIQUE] — ex : SARL, SAS, EI…</td></tr>
+            <tr><td>SIRET</td><td>[SIRET] — XX XXX XXX XXXXX</td></tr>
+            <tr><td>Adresse</td><td>[Numéro et nom de la rue]<br>[Code postal] [Ville], France</td></tr>
+            <tr><td>Téléphone</td><td><a href="tel:[TELEPHONE]">[TELEPHONE_FORMATE]</a></td></tr>
+            <tr><td>Email</td><td><a href="mailto:[EMAIL]">[EMAIL]</a></td></tr>
+            <tr><td>Directeur de publication</td><td>[PRENOM_NOM_GERANT]</td></tr>
+            <tr><td>RCS</td><td>[VILLE_RCS] [NUMERO_RCS] — (si applicable)</td></tr>
+          </table>
+        </div>
+        <p>Ce site a été conçu et développé pour le compte de <strong>[NOM_RESTAURANT]</strong>. Le contenu éditorial (textes, tarifs, photos, carte) relève de la responsabilité de [NOM_RESTAURANT].</p>
+      </section>
+
+      <!-- 2. HÉBERGEMENT -->
+      <section class="ml-section" id="hebergement">
+        <p class="ml-section-num">Article 2</p>
+        <h2>Hébergement</h2>
+        <p>Le site est hébergé par :</p>
+        <div class="ml-info-block">
+          <table>
+            <tr><td>Hébergeur</td><td>[NOM_HEBERGEUR] — ex : Netlify, OVH, Vercel…</td></tr>
+            <tr><td>Adresse</td><td>[ADRESSE_HEBERGEUR]</td></tr>
+            <tr><td>Site web</td><td><a href="[URL_HEBERGEUR]" target="_blank" rel="noopener">[URL_HEBERGEUR]</a></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. PROPRIÉTÉ INTELLECTUELLE -->
+      <section class="ml-section" id="propriete">
+        <p class="ml-section-num">Article 3</p>
+        <h2>Propriété intellectuelle</h2>
+        <p>Les contenus éditoriaux de ce site (textes, photographies, logo, identité visuelle, carte des menus) sont la propriété de <strong>[NOM_RESTAURANT]</strong> et sont protégés par les lois françaises et internationales relatives à la propriété intellectuelle.</p>
+        <p>Toute reproduction ou exploitation non autorisée de tout ou partie des éléments de ce site est interdite et constitutive d'une contrefaçon sanctionnée par les articles L.335-2 et suivants du Code de la Propriété Intellectuelle.</p>
+      </section>
+
+      <!-- 4. DONNÉES PERSONNELLES -->
+      <section class="ml-section" id="donnees">
+        <p class="ml-section-num">Article 4</p>
+        <h2>Données personnelles &amp; RGPD</h2>
+        <p>Conformément au Règlement (UE) 2016/679 du 27 avril 2016 (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, <strong>[NOM_RESTAURANT]</strong> s'engage à protéger la vie privée des utilisateurs de ce site.</p>
+        <p><strong>Responsable du traitement :</strong> [PRENOM_NOM_GERANT] — <a href="mailto:[EMAIL]">[EMAIL]</a></p>
+        <p><strong>Données collectées :</strong> nom, prénom, adresse email, numéro de téléphone, date et heure de réservation, nombre de couverts et message libre, via le formulaire de réservation.</p>
+        <p><strong>Finalité :</strong> Traitement des demandes de réservation et communication avec les clients. Vos données ne sont pas vendues ni transmises à des tiers à des fins commerciales.</p>
+        <p><strong>Durée de conservation :</strong> 3 ans maximum à compter du dernier contact ou de la dernière visite enregistrée.</p>
+        <p><strong>Vos droits :</strong> Conformément à la réglementation, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données. Pour exercer ces droits, contactez-nous à : <a href="mailto:[EMAIL]">[EMAIL]</a>.</p>
+        <p>En cas de réclamation non résolue, vous pouvez contacter la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>.</p>
+      </section>
+
+      <!-- 5. COOKIES -->
+      <section class="ml-section" id="cookies">
+        <p class="ml-section-num">Article 5</p>
+        <h2>Cookies</h2>
+        <p>Ce site utilise uniquement des cookies techniques strictement nécessaires à son bon fonctionnement (maintien de session, préférences de navigation). Aucun cookie publicitaire ou de traçage tiers n'est déposé sans votre consentement préalable.</p>
+        <p>Aucun outil de mesure d'audience tiers (Google Analytics, etc.) n'est utilisé par défaut sur ce site. Aucune donnée de navigation n'est transmise à des services externes à des fins de ciblage publicitaire.</p>
+        <p>Vous pouvez à tout moment désactiver les cookies dans les paramètres de votre navigateur. La désactivation des cookies techniques peut altérer le bon fonctionnement du site.</p>
+      </section>
+
+      <!-- 6. RESPONSABILITÉ -->
+      <section class="ml-section" id="responsabilite">
+        <p class="ml-section-num">Article 6</p>
+        <h2>Limitation de responsabilité</h2>
+        <p><strong>[NOM_RESTAURANT]</strong> s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site (horaires, tarifs, disponibilités), sans pouvoir en garantir l'exhaustivité ni l'absence d'erreur. Les informations sont fournies à titre indicatif et peuvent être modifiées sans préavis.</p>
+        <p>[NOM_RESTAURANT] ne saurait être tenu responsable de tout dommage résultant de l'utilisation de ce site, d'une indisponibilité technique temporaire, ou d'une intrusion frauduleuse de tiers ayant entraîné une modification des informations.</p>
+        <p>Les liens vers des ressources ou sites externes sont fournis à titre d'information uniquement et n'engagent pas la responsabilité de <strong>[NOM_RESTAURANT]</strong>.</p>
+      </section>
+
+      <!-- 7. CONTACT -->
+      <section class="ml-section" id="contact">
+        <p class="ml-section-num">Article 7</p>
+        <h2>Contact</h2>
+        <p>Pour toute question relative à ce site, à vos données personnelles ou à votre réservation :</p>
+        <div class="ml-info-block">
+          <table>
+            <tr><td>Par email</td><td><a href="mailto:[EMAIL]">[EMAIL]</a></td></tr>
+            <tr><td>Par téléphone</td><td><a href="tel:[TELEPHONE]">[TELEPHONE_FORMATE]</a></td></tr>
+            <tr><td>Par courrier</td><td><strong>[NOM_RESTAURANT]</strong><br>[Numéro et nom de la rue]<br>[Code postal] [Ville]</td></tr>
+          </table>
+        </div>
+        <p style="font-size:.85rem;color:var(--color-muted);font-style:italic;">Nous nous engageons à répondre à toute demande dans un délai maximum de 30 jours.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">[NOM_RESTAURANT]</div>
+      <div class="footer-links-row">
+        <a href="index.html">Accueil</a>
+        <a href="carte.html">La Carte</a>
+        <a href="reservation.html">Réservation</a>
+        <a href="mentions-legales.html">Mentions légales</a>
+      </div>
+      <p class="footer-copy">© [ANNEE] [NOM_RESTAURANT]</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const m = document.getElementById('mobile-menu'), b = document.getElementById('hamburger-btn');
+      const open = m.classList.toggle('open');
+      b.setAttribute('aria-expanded', open);
+    }
+    document.addEventListener('click', function(e) {
+      const m = document.getElementById('mobile-menu'), b = document.getElementById('hamburger-btn');
+      if (m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) { m.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); }
+    });
+  </script>
+</body>
+</html>

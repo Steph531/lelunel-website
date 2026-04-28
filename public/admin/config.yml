@@ -1,0 +1,312 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+
+i18n:
+  structure: single_file
+  locales: [fr, en]
+  default_locale: fr
+
+collections:
+  # ══════════════════════════════════════════════
+  # PAGE ACCUEIL
+  # ══════════════════════════════════════════════
+  - name: home
+    label: "Page Accueil"
+    i18n: true
+    files:
+      - name: home_page
+        label: "Page Accueil"
+        file: src/content/home/index.json
+        i18n: true
+        fields:
+          - { label: "Titre SEO", name: meta_title, widget: string, i18n: true }
+          - { label: "Description SEO", name: meta_description, widget: text, i18n: true }
+          - { label: "Titre Hero", name: hero_title, widget: string, i18n: true }
+          - { label: "Sous-titre Hero", name: hero_subtitle, widget: string, i18n: true }
+          - { label: "CTA Hero", name: hero_cta, widget: string, i18n: true }
+          - { label: "Image Hero", name: hero_image, widget: image, required: false, i18n: false }
+          - { label: "Bandeau — Label Ouverture", name: strip_open_label, widget: string, i18n: true }
+          - { label: "Bandeau — Valeur Ouverture", name: strip_open_value, widget: string, i18n: true }
+          - { label: "Bandeau — Label Service", name: strip_service_label, widget: string, i18n: true }
+          - { label: "Bandeau — Valeur Service", name: strip_service_value, widget: string, i18n: true }
+          - { label: "Bandeau — Label Réservation", name: strip_book_label, widget: string, i18n: true }
+          - { label: "Bandeau — Valeur Réservation", name: strip_book_value, widget: string, i18n: true }
+          - { label: "Bandeau — Label Prix", name: strip_price_label, widget: string, i18n: true }
+          - { label: "Bandeau — Valeur Prix", name: strip_price_value, widget: string, i18n: true }
+          - { label: "Titre Arguments", name: arguments_title, widget: string, i18n: true }
+          - label: "Arguments (4 cartes)"
+            name: arguments
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Icône (emoji)", name: icon, widget: string }
+              - { label: "Titre", name: title, widget: string }
+              - { label: "Description", name: description, widget: text }
+          - { label: "Titre Aperçu Carte", name: menu_preview_title, widget: string, i18n: true }
+          - { label: "CTA Aperçu Carte", name: menu_preview_cta, widget: string, i18n: true }
+          - label: "Aperçu — Entrées"
+            name: menu_preview_starters
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Prix", name: price, widget: string }
+          - label: "Aperçu — Plats"
+            name: menu_preview_mains
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Prix", name: price, widget: string }
+          - label: "Aperçu — Desserts"
+            name: menu_preview_desserts
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Prix", name: price, widget: string }
+          - label: "Aperçu — Formules"
+            name: menu_preview_formulas
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Prix", name: price, widget: string }
+          - { label: "Titre Galerie", name: gallery_title, widget: string, i18n: true }
+          - label: "Galerie (7 photos)"
+            name: gallery_images
+            widget: list
+            i18n: false
+            fields:
+              - { label: "Image", name: src, widget: image }
+              - { label: "Texte alternatif", name: alt, widget: string }
+              - { label: "Variante", name: variant, widget: select, options: [normal, tall, wide], default: normal }
+          - { label: "Accroche section À propos", name: about_tagline, widget: string, i18n: true }
+          - { label: "Texte À propos", name: about_description, widget: text, i18n: true }
+          - { label: "Image À propos", name: about_image, widget: image, required: false, i18n: false }
+          - { label: "Titre Avis", name: reviews_title, widget: string, i18n: true }
+          - label: "Avis clients"
+            name: reviews
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Auteur", name: author, widget: string }
+              - { label: "Date", name: date, widget: string }
+              - { label: "Note (/5)", name: rating, widget: number, min: 1, max: 5, value_type: int }
+              - { label: "Commentaire", name: comment, widget: text }
+          - { label: "Titre Horaires", name: hours_title, widget: string, i18n: true }
+          - { label: "Titre Contact", name: contact_title, widget: string, i18n: true }
+          - { label: "Titre CTA", name: cta_title, widget: string, i18n: true }
+          - { label: "Sous-titre CTA", name: cta_subtitle, widget: string, i18n: true }
+          - { label: "Bouton CTA", name: cta_button, widget: string, i18n: true }
+
+  # ══════════════════════════════════════════════
+  # PAGE CARTE
+  # ══════════════════════════════════════════════
+  - name: carte
+    label: "La Carte"
+    i18n: true
+    files:
+      - name: carte_page
+        label: "La Carte"
+        file: src/content/carte/index.json
+        i18n: true
+        fields:
+          - { label: "Titre SEO", name: meta_title, widget: string, i18n: true }
+          - { label: "Description SEO", name: meta_description, widget: text, i18n: true }
+          - { label: "Titre Hero", name: hero_title, widget: string, i18n: true }
+          - { label: "Sous-titre Hero", name: hero_subtitle, widget: string, required: false, i18n: true }
+          - label: "Entrées"
+            name: entrees
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Description", name: description, widget: text, required: false }
+              - { label: "Prix (€)", name: price, widget: string }
+              - label: "Badges"
+                name: badges
+                widget: select
+                multiple: true
+                required: false
+                options: [signature, vege, new, gluten, maison]
+          - label: "Plats"
+            name: plats
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Description", name: description, widget: text, required: false }
+              - { label: "Prix (€)", name: price, widget: string }
+              - { label: "Badges", name: badges, widget: select, multiple: true, required: false, options: [signature, vege, new, gluten, maison] }
+          - label: "Desserts"
+            name: desserts
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Description", name: description, widget: text, required: false }
+              - { label: "Prix (€)", name: price, widget: string }
+              - { label: "Badges", name: badges, widget: select, multiple: true, required: false, options: [signature, vege, new, gluten, maison] }
+          - label: "Fromages"
+            name: fromages
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Description", name: description, widget: text, required: false }
+              - { label: "Prix (€)", name: price, widget: string }
+          - label: "Formules"
+            name: formules
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Prix (€)", name: price, widget: string }
+              - { label: "Comprend", name: includes, widget: list }
+              - { label: "Note", name: note, widget: string, required: false }
+          - { label: "Titre CTA", name: cta_title, widget: string, i18n: true }
+          - { label: "Bouton CTA", name: cta_button, widget: string, i18n: true }
+
+  # ══════════════════════════════════════════════
+  # PAGE NOTRE HISTOIRE
+  # ══════════════════════════════════════════════
+  - name: histoire
+    label: "Notre Histoire"
+    i18n: true
+    files:
+      - name: histoire_page
+        label: "Notre Histoire"
+        file: src/content/histoire/index.json
+        i18n: true
+        fields:
+          - { label: "Titre SEO", name: meta_title, widget: string, i18n: true }
+          - { label: "Description SEO", name: meta_description, widget: text, i18n: true }
+          - { label: "Titre Hero", name: hero_title, widget: string, i18n: true }
+          - { label: "Titre Histoire", name: story_title, widget: string, required: false, i18n: true }
+          - { label: "Texte Histoire", name: story_description, widget: text, required: false, i18n: true }
+          - { label: "Image Histoire", name: story_image, widget: image, required: false, i18n: false }
+          - { label: "Titre Valeurs", name: values_title, widget: string, i18n: true }
+          - label: "Valeurs"
+            name: values
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Icône", name: icon, widget: string, hint: "shield, leaf ou heart" }
+              - { label: "Titre", name: title, widget: string }
+              - { label: "Description", name: description, widget: text }
+          - { label: "Titre Équipe", name: team_title, widget: string, i18n: true }
+          - label: "Membres de l'équipe"
+            name: team
+            widget: list
+            i18n: false
+            fields:
+              - { label: "Nom", name: name, widget: string }
+              - { label: "Rôle", name: role, widget: string }
+              - { label: "Photo", name: image, widget: image, required: false }
+          - { label: "Titre CTA", name: cta_title, widget: string, i18n: true }
+          - { label: "Bouton CTA", name: cta_button, widget: string, i18n: true }
+          - { label: "— MODE CHEF — Nom du chef", name: chef_name, widget: string, required: false, i18n: false, hint: "Uniquement si mode Chef activé dans siteConfig.ts" }
+          - { label: "— MODE CHEF — Rôle du chef", name: chef_role, widget: string, required: false, i18n: true }
+          - { label: "— MODE CHEF — Biographie du chef", name: chef_description, widget: text, required: false, i18n: true }
+          - { label: "— MODE CHEF — Photo du chef", name: chef_image, widget: image, required: false, i18n: false }
+          - { label: "— MODE CHEF — Titre Timeline", name: timeline_title, widget: string, required: false, i18n: true }
+          - label: "— MODE CHEF — Parcours (timeline)"
+            name: timeline
+            widget: list
+            required: false
+            i18n: true
+            fields:
+              - { label: "Année", name: year, widget: string }
+              - { label: "Titre", name: title, widget: string }
+              - { label: "Description", name: description, widget: text }
+
+  # ══════════════════════════════════════════════
+  # PAGE RÉSERVATION
+  # ══════════════════════════════════════════════
+  - name: reservation
+    label: "Réservation"
+    i18n: true
+    files:
+      - name: reservation_page
+        label: "Réservation"
+        file: src/content/reservation/index.json
+        i18n: true
+        fields:
+          - { label: "Titre SEO", name: meta_title, widget: string, i18n: true }
+          - { label: "Description SEO", name: meta_description, widget: text, i18n: true }
+          - { label: "Titre Hero", name: hero_title, widget: string, i18n: true }
+          - { label: "Sous-titre Hero", name: hero_subtitle, widget: string, required: false, i18n: true }
+          - { label: "Titre formulaire", name: form_title, widget: string, i18n: true }
+          - { label: "Label Prénom", name: form_firstname, widget: string, i18n: true }
+          - { label: "Label Nom", name: form_lastname, widget: string, i18n: true }
+          - { label: "Label Email", name: form_email, widget: string, i18n: true }
+          - { label: "Label Téléphone", name: form_phone, widget: string, i18n: true }
+          - { label: "Label Date", name: form_date, widget: string, i18n: true }
+          - { label: "Label Service", name: form_service, widget: string, i18n: true }
+          - { label: "Label Couverts", name: form_guests, widget: string, i18n: true }
+          - { label: "Label Formule", name: form_formula, widget: string, i18n: true }
+          - { label: "Label Message", name: form_message, widget: string, i18n: true }
+          - { label: "Texte bouton submit", name: form_submit, widget: string, i18n: true }
+          - { label: "Message succès", name: form_success, widget: text, i18n: true }
+          - { label: "Message erreur", name: form_error, widget: text, i18n: true }
+          - { label: "Texte RGPD", name: form_rgpd, widget: text, i18n: true }
+          - label: "Options Service"
+            name: services
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Libellé", name: label, widget: string }
+              - { label: "Valeur", name: value, widget: string }
+          - label: "Options Formule"
+            name: formulas
+            widget: list
+            i18n: true
+            fields:
+              - { label: "Libellé", name: label, widget: string }
+              - { label: "Valeur", name: value, widget: string }
+          - { label: "Titre section téléphone", name: info_phone_title, widget: string, i18n: true }
+          - { label: "Titre section horaires", name: info_hours_title, widget: string, i18n: true }
+          - { label: "Titre section adresse", name: info_address_title, widget: string, i18n: true }
+          - { label: "Titre section groupes", name: info_groups_title, widget: string, i18n: true }
+          - { label: "Texte groupes", name: info_groups_text, widget: text, i18n: true }
+
+  # ══════════════════════════════════════════════
+  # PARAMÈTRES GLOBAUX
+  # ══════════════════════════════════════════════
+  - name: settings
+    label: "Paramètres globaux"
+    files:
+      - name: global
+        label: "Site"
+        file: src/content/brand/index.json
+        fields:
+          - { label: "Nom du restaurant", name: site_name, widget: string, required: false }
+          - { label: "Accroche / Tagline", name: tagline, widget: string, required: false }
+          - { label: "Type de cuisine", name: restaurant_type, widget: string, required: false }
+          - { label: "Prix moyen", name: average_price, widget: string, required: false, hint: "Ex : 45 €" }
+          - { label: "Image Open Graph (1200×630 px)", name: og_image, widget: image, required: false }
+          - { label: "Handle Twitter / X", name: twitter_handle, widget: string, required: false, hint: "Ex : @monrestaurant" }
+          - { label: "Téléphone", name: phone, widget: string, required: false, hint: "Ex : +33 1 23 45 67 89" }
+          - { label: "E-mail de contact", name: email, widget: string, required: false }
+          - { label: "Adresse (rue)", name: street_address, widget: string, required: false }
+          - { label: "Ville", name: city, widget: string, required: false }
+          - { label: "Code postal", name: postal_code, widget: string, required: false }
+          - { label: "Pays (code ISO)", name: country, widget: string, required: false, default: "FR" }
+          - { label: "URL Google Maps", name: maps_url, widget: string, required: false }
+          - { label: "Logo", name: logo, widget: image, required: false }
+          - { label: "Instagram URL", name: instagram_url, widget: string, required: false }
+          - { label: "Facebook URL", name: facebook_url, widget: string, required: false }
+          - { label: "YouTube URL", name: youtube_url, widget: string, required: false }
+          - label: "Horaires d'ouverture"
+            name: hours
+            widget: list
+            required: false
+            fields:
+              - { label: "Jours", name: days, widget: string, hint: "Ex : Mardi – Vendredi" }
+              - { label: "Midi (heure)", name: lunch, widget: string, required: false, hint: "Laisser vide si fermé le midi" }
+              - { label: "Soir (heure)", name: dinner, widget: string, required: false, hint: "Laisser vide si fermé le soir" }
